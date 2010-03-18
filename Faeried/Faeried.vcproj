@@ -22,8 +22,8 @@
 			>
 			<Tool
 				Name="VCNMakeTool"
-				BuildCommandLine="qmake -project &amp; qmake &amp; nmake debug"
-				ReBuildCommandLine="qmake -project &amp; qmake &amp; nmake debug"
+				BuildCommandLine="nmake debug"
+				ReBuildCommandLine="nmake debug"
 				CleanCommandLine="nmake debug-clean"
 				Output="Faeried-debug.exe"
 				PreprocessorDefinitions="WIN32;_DEBUG"
@@ -42,9 +42,9 @@
 			>
 			<Tool
 				Name="VCNMakeTool"
-				BuildCommandLine="qmake -project &amp; qmake &amp; nmake release"
-				ReBuildCommandLine="qmake -project &amp; qmake &amp; nmake release"
-				CleanCommandLine="nmake clean"
+				BuildCommandLine="nmake release"
+				ReBuildCommandLine="nmake release"
+				CleanCommandLine="nmake release-clean"
 				Output="Faeried.exe"
 				PreprocessorDefinitions="WIN32;NDEBUG"
 				IncludeSearchPath=""
@@ -58,6 +58,10 @@
 	<References>
 	</References>
 	<Files>
+		<File
+			RelativePath=".\Faeried.pro"
+			>
+		</File>
 		<File
 			RelativePath=".\main.cpp"
 			>
