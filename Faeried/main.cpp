@@ -1,9 +1,10 @@
 #include <QtGui/QApplication>
-#include <QtGui/QWidget>
+
+#include "PreviewFaerieWidget.h"
 
 int main(int argc, char* argv[]) {
 	QApplication app(argc, argv);
-	QWidget window;
+	PreviewFaerieWidget window;
 	window.show();
 	return app.exec();
 }

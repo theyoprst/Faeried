@@ -25,9 +25,9 @@
 				BuildCommandLine="nmake debug"
 				ReBuildCommandLine="nmake debug"
 				CleanCommandLine="nmake debug-clean"
-				Output="Faeried-debug.exe"
+				Output="Faeried.exe"
 				PreprocessorDefinitions="WIN32;_DEBUG"
-				IncludeSearchPath=""
+				IncludeSearchPath="D:\projects\hge181\include"
 				ForcedIncludes=""
 				AssemblySearchPath=""
 				ForcedUsingAssemblies=""
@@ -47,7 +47,7 @@
 				CleanCommandLine="nmake release-clean"
 				Output="Faeried.exe"
 				PreprocessorDefinitions="WIN32;NDEBUG"
-				IncludeSearchPath=""
+				IncludeSearchPath="D:\projects\hge181\include"
 				ForcedIncludes=""
 				AssemblySearchPath=""
 				ForcedUsingAssemblies=""
@@ -64,6 +64,14 @@
 		</File>
 		<File
 			RelativePath=".\main.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\PreviewFaerieWidget.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\PreviewFaerieWidget.h"
 			>
 		</File>
 	</Files>
