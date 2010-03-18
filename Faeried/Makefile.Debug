@@ -45,8 +45,8 @@ OBJECTS       = debug\main.obj
 DIST          = 
 QMAKE_TARGET  = Faeried
 DESTDIR        = debug\ #avoid trailing-slash linebreak
-TARGET         = Faeried.exe
-DESTDIR_TARGET = debug\Faeried.exe
+TARGET         = Faeried-debug.exe
+DESTDIR_TARGET = debug\Faeried-debug.exe
 
 ####### Implicit rules
 
