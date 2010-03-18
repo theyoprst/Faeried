@@ -10,8 +10,10 @@ INCLUDEPATH += .
 # Input
 SOURCES += main.cpp
 SOURCES += PreviewFaerieWidget.cpp
+SOURCES += SettingsWidget.cpp
 
-INCLUDES += PreviewFaerieWidget.h
+HEADERS += PreviewFaerieWidget.h
+HEADERS += SettingsWidget.h
 
 win32:LIBS += D:\projects\hge181\lib\vc\hge.lib
 win32:LIBS += D:\projects\hge181\lib\vc\hgehelp.lib

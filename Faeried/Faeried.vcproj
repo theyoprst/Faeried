@@ -74,6 +74,14 @@
 			RelativePath=".\PreviewFaerieWidget.h"
 			>
 		</File>
+		<File
+			RelativePath=".\SettingsWidget.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\SettingsWidget.h"
+			>
+		</File>
 	</Files>
 	<Globals>
 	</Globals>

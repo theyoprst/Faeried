@@ -6,11 +6,15 @@
 HGE* PreviewFaerieWidget::_hge = NULL;
 
 PreviewFaerieWidget::PreviewFaerieWidget(QWidget* parent)
-	: QWidget(parent)
+	: QWidget(parent, Qt::SubWindow)
 {
 	InitHGE();
-	setFixedSize(WIDTH, HEIGHT);
 	setWindowTitle("Faerie preview");
+	setFixedSize(WIDTH, HEIGHT);
+	
+	//setWindowFlags( Qt::Widget );
+	//setWindowModality(Qt::WindowModal);
+	//setWindowFlags(flags);
 }
 
 void PreviewFaerieWidget::InitHGE() {
@@ -44,9 +48,13 @@ bool PreviewFaerieWidget::RenderFunc() {
 
 void PreviewFaerieWidget::Draw() {
 	_hge->Gfx_BeginScene();
-	_hge->Gfx_Clear(0);
+	_hge->Gfx_Clear(0x00000000);
 	_hge->Gfx_EndScene();
 }
 
 void PreviewFaerieWidget::Update(float dt) {
+}
+
+void PreviewFaerieWidget::OnQuit() {
+	int i = 1;
 }

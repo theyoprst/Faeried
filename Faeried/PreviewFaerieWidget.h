@@ -8,6 +8,8 @@ class PreviewFaerieWidget
 	: public QWidget
 {
 
+	Q_OBJECT
+
 public:
 	
 	//
@@ -19,6 +21,13 @@ public:
 	// Декструктор
 	//
 	~PreviewFaerieWidget();
+
+public slots:
+	
+	//
+	// Реакция на выход
+	//
+	void OnQuit();
 
 private:
 
