@@ -4,6 +4,10 @@
 
 class HGE;
 
+//
+// Виджет предосмотра феи;
+// содержит окно hge, принимает сообщения от окна настроек через слоты (?)
+//
 class PreviewFaerieWidget
 	: public QWidget
 {
@@ -21,13 +25,6 @@ public:
 	// Декструктор
 	//
 	~PreviewFaerieWidget();
-
-public slots:
-	
-	//
-	// Реакция на выход
-	//
-	void OnQuit();
 
 private:
 

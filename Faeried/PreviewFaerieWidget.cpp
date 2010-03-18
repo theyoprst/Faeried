@@ -11,10 +11,6 @@ PreviewFaerieWidget::PreviewFaerieWidget(QWidget* parent)
 	InitHGE();
 	setWindowTitle("Faerie preview");
 	setFixedSize(WIDTH, HEIGHT);
-	
-	//setWindowFlags( Qt::Widget );
-	//setWindowModality(Qt::WindowModal);
-	//setWindowFlags(flags);
 }
 
 void PreviewFaerieWidget::InitHGE() {
@@ -53,8 +49,4 @@ void PreviewFaerieWidget::Draw() {
 }
 
 void PreviewFaerieWidget::Update(float dt) {
-}
-
-void PreviewFaerieWidget::OnQuit() {
-	int i = 1;
 }
