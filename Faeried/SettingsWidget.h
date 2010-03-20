@@ -4,6 +4,9 @@
 
 class PreviewFaerieWidget;
 
+//
+// Виджет настроек феи
+//
 class SettingsWidget
 	: public QWidget
 {

@@ -1,8 +1,11 @@
 #pragma once
 
+#include <QtCore/QTime>
+#include <QtCore/QTimer>
 #include <QtGui/QWidget>
 
 class HGE;
+class Faerie;
 
 //
 // Виджет предосмотра феи;
@@ -37,15 +40,19 @@ private:
 	static HGE* _hge;
 		// объект окна HGE, статический для использования callback-функций
 
+	static Faerie* _faerie;
+		// фея
+
+	QTimer _timer;
+		// таймер
+
+	static QTime _time;
+		// для привязки к реальному времени
+
 	//
 	// Callback-функция обновления окна
 	//
 	static bool FrameFunc();
-
-	//
-	// Callback-функция прорисовки окна
-	//
-	static bool RenderFunc();
 
 	//
 	// Рисуем фею
@@ -61,4 +68,18 @@ private:
 	// Инициализировать HGE
 	//
 	void InitHGE();
+
+
+	virtual void paintEvent(QPaintEvent*);
+
+
+	virtual QPaintEngine * paintEngine () const;
+
+private slots:
+
+	//
+	// Callback-функция прорисовки окна
+	//
+	static bool RenderFunc();
+
 };

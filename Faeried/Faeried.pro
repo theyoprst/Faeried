@@ -11,9 +11,16 @@ INCLUDEPATH += .
 SOURCES += main.cpp
 SOURCES += PreviewFaerieWidget.cpp
 SOURCES += SettingsWidget.cpp
+SOURCES += Faerie.cpp
+SOURCES += Bone.cpp
 
 HEADERS += PreviewFaerieWidget.h
 HEADERS += SettingsWidget.h
+HEADERS += Faerie.h
+HEADERS += Bone.h
+HEADERS += Xml.h
+HEADERS += Point.h
+HEADERS += Math.h
 
 win32:LIBS += D:\projects\hge181\lib\vc\hge.lib
 win32:LIBS += D:\projects\hge181\lib\vc\hgehelp.lib

@@ -58,12 +58,64 @@
 	<References>
 	</References>
 	<Files>
+		<Filter
+			Name="rapidxml"
+			>
+			<File
+				RelativePath=".\rapidxml\rapidxml.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\rapidxml\rapidxml_iterators.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\rapidxml\rapidxml_print.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\rapidxml\rapidxml_utils.hpp"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="XML"
+			>
+			<File
+				RelativePath="..\bin\bones.xml"
+				>
+			</File>
+		</Filter>
+		<File
+			RelativePath=".\Bone.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Bone.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Faerie.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Faerie.h"
+			>
+		</File>
 		<File
 			RelativePath=".\Faeried.pro"
 			>
 		</File>
 		<File
 			RelativePath=".\main.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Math.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Point.h"
 			>
 		</File>
 		<File
@@ -80,6 +132,10 @@
 		</File>
 		<File
 			RelativePath=".\SettingsWidget.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Xml.h"
 			>
 		</File>
 	</Files>
