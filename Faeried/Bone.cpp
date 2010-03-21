@@ -10,6 +10,7 @@ Bone::Bone(HGE* hge, Xml::Node* boneXml, BonesMap* bonesMap)
 	, _inParentPosition(0, 0)
 	, _rotationPoint(0, 0)
 	, _angle(0.0f)
+	, _hge(hge)
 {
 	assert(boneXml != NULL);
 	
@@ -41,14 +42,13 @@ Bone::Bone(HGE* hge, Xml::Node* boneXml, BonesMap* bonesMap)
 }
 
 void Bone::Draw(FPoint parentLeftTopCorner, float parentAngle) {
-	FPoint rotationCenterPos = parentLeftTopCorner + FPoint(_inParentPosition).Rotate(parentAngle);
-	//Point rotationCenterPos = parentLeftTopCorner + _inParentPosition;
-	FPoint leftTopCorner = rotationCenterPos + FPoint(-_rotationPoint).Rotate(parentAngle + _angle);
-	//Point leftTopCorner = rotationCenterPos - _rotationPoint;
+	FPoint rotationCenterPos = parentLeftTopCorner + FPoint(_inParentPosition).RotateCounterclockwise(parentAngle);
+	FPoint leftTopCorner = rotationCenterPos + FPoint(-_rotationPoint).RotateCounterclockwise(parentAngle + _angle);
 	for (Children::iterator i = _children.begin(); i != _children.end(); ++i) {
 		(*i)->Draw(leftTopCorner, parentAngle + _angle);
 	}
-	_sprite->RenderEx(rotationCenterPos.x, rotationCenterPos.y, parentAngle + _angle);
+	// так как мы вращаем против часовой стрелки, а RenderEx вращает по, то инвертируем угол.
+	_sprite->RenderEx(rotationCenterPos.x, rotationCenterPos.y, - parentAngle - _angle);
 }
 
 void Bone::SetAngleInDegrees(int angleInDegrees) {

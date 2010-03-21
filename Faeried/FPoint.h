@@ -31,13 +31,22 @@ struct FPoint
 	}
 
 	//
-	// Возвращает точку, повернутую на angle радиан против часовой стрелки
-	// относительно начала координат
+	// Возвращает точку, повернутую на angle радиан по часовой стрелке
+	// относительно начала координат.
+	// На самом деле (математически), точка вращается против часовой стрелки,
+	// но так как ось Oy направлена вниз, то визуально вращение изменяет направление.
 	//
-	FPoint Rotate(float angle) {
+	FPoint RotateClockwise(float angle) {
 		float x2 = x * cosf(angle) - y * sinf(angle);
 		float y2 = x * sinf(angle) + y * cosf(angle);
 		return FPoint(x2, y2);
+	}
+
+	//
+	// Вращает точку на angle радиан против часовой стрелки (визуально)
+	//
+	FPoint RotateCounterclockwise(float angle) {
+		return RotateClockwise(-angle);
 	}
 
 	FPoint& operator += (const FPoint& right) {
