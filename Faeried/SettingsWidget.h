@@ -26,4 +26,6 @@ private:
 	// —обытие закрыти€ - нужно закрыть окно предосмотра
 	//
 	virtual void closeEvent(QCloseEvent* event);
+
+	virtual void focusInEvent(QFocusEvent * event);
 };

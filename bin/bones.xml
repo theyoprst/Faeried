@@ -26,7 +26,7 @@
 				<texture path="i/right_arm.png" />
 				<parentPoint x="16" y="6" />
 				<rotationPoint x="3" y="7" />
-				<bone name="leftForearm">
+				<bone name="rightForearm">
 					<texture path="i/right_forearm.png" />
 					<parentPoint x="17" y="7" />
 					<rotationPoint x="2" y="3" />

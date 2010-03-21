@@ -12,12 +12,16 @@ Faerie::Faerie(HGE* hge)
 	Xml::Node* rootXml = doc.first_node();
 	assert(rootXml != NULL);
 	assert(rootXml->first_node() != NULL);
-	_rootBone = new Bone(hge, rootXml->first_node("bone"));
+	_rootBone = new Bone(hge, rootXml->first_node("bone"), &_bonesMap);
 }
 
 void Faerie::Draw() {
-	_rootBone->Draw(Point(0, 0));
+	_rootBone->Draw(FPoint(0, 0), 0.0f);
 }
 
 void Faerie::Update(float dt) {
+}
+
+Bone* Faerie::GetBoneByName(std::string boneName) {
+	return _bonesMap.GetBone(boneName);
 }

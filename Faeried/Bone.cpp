@@ -3,16 +3,19 @@
 #include <hge.h>
 #include <hgesprite.h>
 
-#include "Xml.h"
+#include "BonesMap.h"
 
-Bone::Bone(HGE* hge, rapidxml::xml_node<char>* boneXml)
-	: _inParentPosition(0, 0)
+Bone::Bone(HGE* hge, Xml::Node* boneXml, BonesMap* bonesMap)
+	: QObject()
+	, _inParentPosition(0, 0)
 	, _rotationPoint(0, 0)
+	, _angle(0.0f)
 {
 	assert(boneXml != NULL);
 	
-	_name = boneXml->first_attribute("name")->name();
-	
+	_name = boneXml->first_attribute("name")->value();
+	bonesMap->AddBone(_name, this);
+
 	Xml::Node* textureXml = boneXml->first_node("texture");
 	assert(textureXml != NULL);
 	assert(textureXml->first_attribute("path") != NULL);
@@ -32,16 +35,22 @@ Bone::Bone(HGE* hge, rapidxml::xml_node<char>* boneXml)
 
 	Xml::Node* childBoneXml = boneXml->first_node("bone");
 	while (childBoneXml != NULL) {
-		_children.push_back(new Bone(hge, childBoneXml));
+		_children.push_back(new Bone(hge, childBoneXml, bonesMap));
 		childBoneXml = childBoneXml->next_sibling("bone");
 	}
 }
 
-void Bone::Draw(Point parentLeftTopCorner) {
-	Point rotationCenterPos = parentLeftTopCorner + _inParentPosition;
-	Point leftTopCorner = rotationCenterPos - _rotationPoint;
+void Bone::Draw(FPoint parentLeftTopCorner, float parentAngle) {
+	FPoint rotationCenterPos = parentLeftTopCorner + FPoint(_inParentPosition).Rotate(parentAngle);
+	//Point rotationCenterPos = parentLeftTopCorner + _inParentPosition;
+	FPoint leftTopCorner = rotationCenterPos + FPoint(-_rotationPoint).Rotate(parentAngle + _angle);
+	//Point leftTopCorner = rotationCenterPos - _rotationPoint;
 	for (Children::iterator i = _children.begin(); i != _children.end(); ++i) {
-		(*i)->Draw(leftTopCorner);
+		(*i)->Draw(leftTopCorner, parentAngle + _angle);
 	}
-	_sprite->Render(rotationCenterPos.x, rotationCenterPos.y);
+	_sprite->RenderEx(rotationCenterPos.x, rotationCenterPos.y, parentAngle + _angle);
+}
+
+void Bone::SetAngleInDegrees(int angleInDegrees) {
+	_angle = angleInDegrees * Math::PI / 180.0f;
 }

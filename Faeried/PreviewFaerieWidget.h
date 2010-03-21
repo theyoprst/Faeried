@@ -4,8 +4,9 @@
 #include <QtCore/QTimer>
 #include <QtGui/QWidget>
 
-class HGE;
+class Bone;
 class Faerie;
+class HGE;
 
 //
 // Виджет предосмотра феи;
@@ -28,6 +29,11 @@ public:
 	// Декструктор
 	//
 	~PreviewFaerieWidget();
+
+	//
+	// Вернуть кость по имени
+	//
+	Bone* GetBoneByName(std::string boneName);
 
 private:
 
@@ -69,10 +75,8 @@ private:
 	//
 	void InitHGE();
 
-
+	/// TODO: а нельзя ли без этого?
 	virtual void paintEvent(QPaintEvent*);
-
-
 	virtual QPaintEngine * paintEngine () const;
 
 private slots:

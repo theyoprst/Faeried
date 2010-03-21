@@ -1,5 +1,7 @@
-#include "rapidxml/rapidxml.hpp"
-#include "Math.h"
+#pragma once
+
+#include "M.h"
+#include "Xml.h"
 
 //
 // Точка на плоскости
@@ -21,7 +23,7 @@ struct Point
 	//
 	// Конструктор чтения точки из xml
 	//
-	Point(rapidxml::xml_node<char>* xml) {
+	Point(Xml::Node* xml) {
 		assert(xml->first_attribute("x") != NULL);
 		assert(xml->first_attribute("y") != NULL);
 		x = Math::ParseInt(xml->first_attribute("x")->value());
@@ -61,4 +63,7 @@ struct Point
 		return Point(*this) -= right;
 	}
 
+	Point operator -() {
+		return Point(-x, -y);
+	}
 };

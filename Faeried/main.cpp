@@ -11,8 +11,9 @@ int main(int argc, char* argv[]) {
 	PreviewFaerieWidget preview;
 	preview.show();
 
-	//SettingsWidget settings(&preview);
-	//settings.show();
+	// SettingsWidget должен создаваться последним
+	SettingsWidget settings(&preview);
+	settings.show();
 
 	return app.exec();
 }

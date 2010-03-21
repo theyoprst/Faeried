@@ -13,15 +13,20 @@ SOURCES += PreviewFaerieWidget.cpp
 SOURCES += SettingsWidget.cpp
 SOURCES += Faerie.cpp
 SOURCES += Bone.cpp
+SOURCES += AngleSliderWidget.cpp
+SOURCES += BonesMap.cpp
 
 HEADERS += PreviewFaerieWidget.h
 HEADERS += SettingsWidget.h
 HEADERS += Faerie.h
-HEADERS += Bone.h
 HEADERS += Xml.h
 HEADERS += Point.h
-HEADERS += Math.h
+HEADERS += M.h
+HEADERS += AngleSliderWidget.h
+HEADERS += BonesMap.h
+HEADERS += Bone.h
 
 win32:LIBS += D:\projects\hge181\lib\vc\hge.lib
 win32:LIBS += D:\projects\hge181\lib\vc\hgehelp.lib
 win32:INCPATH += D:\projects\hge181\include\
+win32:INCPATH += C:\PROGRA~1\MID05A~1\VC\INCLUDE\

@@ -87,11 +87,27 @@
 			</File>
 		</Filter>
 		<File
+			RelativePath=".\AngleSliderWidget.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\AngleSliderWidget.h"
+			>
+		</File>
+		<File
 			RelativePath=".\Bone.cpp"
 			>
 		</File>
 		<File
 			RelativePath=".\Bone.h"
+			>
+		</File>
+		<File
+			RelativePath=".\BonesMap.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\BonesMap.h"
 			>
 		</File>
 		<File
@@ -107,11 +123,15 @@
 			>
 		</File>
 		<File
-			RelativePath=".\main.cpp"
+			RelativePath=".\FPoint.h"
 			>
 		</File>
 		<File
-			RelativePath=".\Math.h"
+			RelativePath=".\M.h"
+			>
+		</File>
+		<File
+			RelativePath=".\main.cpp"
 			>
 		</File>
 		<File

@@ -1,5 +1,11 @@
+#pragma once
+
+#include <assert.h>
+
 namespace Math {
 	
+	const static float PI = 3.14526f;
+
 	//
 	// Parses number from null-terminating string
 	//

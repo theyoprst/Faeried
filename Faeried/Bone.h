@@ -2,32 +2,43 @@
 
 #include <list>
 #include <string>
+#include <QtCore/QObject>
 
+#include "FPoint.h"
 #include "Point.h"
+#include "Xml.h"
 
-namespace rapidxml {
-	template<typename Ch> class xml_node;
-}
 class HGE;
 class hgeSprite;
+class BonesMap;
 
 //
 // Класс кости
 //
-class Bone {
+class Bone
+	: public QObject
+{
+	Q_OBJECT
 
 public:
 	
 	//
 	// Конструктор
 	//
-	Bone(HGE* hge, rapidxml::xml_node<char>* boneXml);
+	Bone(HGE* hge, Xml::Node* boneXml, BonesMap* bonesMap);
 
 	//
 	// Отрисовать поддерево костей, начиная с этой
 	//
 	//
-	void Draw(Point parentLeftTopCorner);
+	void Draw(FPoint parentLeftTopCorner, float parentAngle);
+
+public slots:
+	
+	//
+	// Установить угол поворота в градусах
+	//
+	void SetAngleInDegrees(int angleInDegrees);
 
 private:
 	
@@ -48,4 +59,6 @@ private:
 	Children _children;
 		// детские кости
 
+	float _angle;
+		// угол поворота в радианах (против часовой или по часовой?)
 };

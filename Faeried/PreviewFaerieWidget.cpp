@@ -10,13 +10,13 @@ Faerie* PreviewFaerieWidget::_faerie = NULL;
 QTime PreviewFaerieWidget::_time = QTime::currentTime();
 
 PreviewFaerieWidget::PreviewFaerieWidget(QWidget* parent)
-	: QWidget(parent/*, Qt::SubWindow*/)
+	: QWidget(parent, Qt::SubWindow)
 {
 	assert(testAttribute(Qt::WA_PaintOnScreen) == false);
 	setAttribute(Qt::WA_PaintOnScreen, true);
-	InitHGE();
 	setWindowTitle("Faerie preview");
 	setFixedSize(WIDTH, HEIGHT);
+	InitHGE();
 }
 
 void PreviewFaerieWidget::InitHGE() {
@@ -33,7 +33,7 @@ void PreviewFaerieWidget::InitHGE() {
 	_hge->System_Initiate();
 	_hge->System_Start();
 	_faerie = new Faerie(_hge);
-	_timer.start(1);
+	_timer.start(1); // 1000 fps max
 	connect(&_timer, SIGNAL(timeout()), this, SLOT(RenderFunc()));
 	_time = QTime::currentTime();
 }
@@ -50,7 +50,6 @@ bool PreviewFaerieWidget::RenderFunc() {
 	int msecs = _time.msecsTo(QTime::currentTime());
 	assert(msecs >= 0);
 	_time = QTime::currentTime();
-	// _hge->Timer_GetDelta()
 	Update(msecs / 1000.0f);
 	Draw();
 	return false;
@@ -72,9 +71,13 @@ void PreviewFaerieWidget::Update(float dt) {
 }
 
 void PreviewFaerieWidget::paintEvent(QPaintEvent*) {
-	//repaint();
 	RenderFunc();
 }
+
 QPaintEngine * PreviewFaerieWidget::paintEngine () const {
 	return NULL;
+}
+
+Bone* PreviewFaerieWidget::GetBoneByName(std::string boneName) {
+	return _faerie->GetBoneByName(boneName);
 }
