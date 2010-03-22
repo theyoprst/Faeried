@@ -109,6 +109,15 @@ void Bone::Drag(Point p) {
 	}
 	// вычитаем, т.к. _angle - угол против часовой стрелки, а GetDirectedAngleTo возвращает угол по часовой стрелке
 	_angle = _dragAngle1 - (_dragRotatePoint1 - _dragRotateCenter).GetDirectedAngleTo(dragRotatePoint2 - _dragRotateCenter);
+	// теперь приводим угол к отрезку [-PI; PI] и посылаем сигнал об изменении угла
+	while (_angle < -Math::PI) {
+		_angle += Math::PI * 2;
+	}
+	while (_angle > +Math::PI) {
+		_angle -= Math::PI * 2;
+	}
+	int angleInDegrees = Math::Round(_angle / Math::PI * 180.0f);
+	emit AngleInDegreesChanged(angleInDegrees);
 }
 
 void Bone::FinishDragging() {

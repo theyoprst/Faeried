@@ -56,6 +56,13 @@ public slots:
 	//
 	void SetAngleInDegrees(int angleInDegrees);
 
+signals:
+
+	//
+	// Сигнал изменения угла
+	//
+	void AngleInDegreesChanged(int newAngle);
+
 private:
 	
 	std::string _name;

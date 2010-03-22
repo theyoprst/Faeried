@@ -8,4 +8,5 @@ AngleSliderWidget::AngleSliderWidget(Bone* bone)
 	setRange(-180, 180);
 	setValue(0);
 	connect(this, SIGNAL(valueChanged(int)), bone, SLOT(SetAngleInDegrees(int))); 
+	connect(bone, SIGNAL(AngleInDegreesChanged(int)), this, SLOT(setValue(int)));
 }
