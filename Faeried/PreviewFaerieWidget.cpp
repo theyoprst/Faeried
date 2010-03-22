@@ -2,7 +2,9 @@
 
 #include <assert.h>
 #include <hge.h>
+#include <QtGui/QMouseEvent>
 
+#include "Point.h"
 #include "Faerie.h"
 
 HGE* PreviewFaerieWidget::_hge = NULL;
@@ -10,12 +12,13 @@ Faerie* PreviewFaerieWidget::_faerie = NULL;
 QTime PreviewFaerieWidget::_time = QTime::currentTime();
 
 PreviewFaerieWidget::PreviewFaerieWidget(QWidget* parent)
-	: QWidget(parent, Qt::SubWindow)
+	: QWidget(parent/*, Qt::SubWindow*/)
 {
 	assert(testAttribute(Qt::WA_PaintOnScreen) == false);
 	setAttribute(Qt::WA_PaintOnScreen, true);
 	setWindowTitle("Faerie preview");
 	setFixedSize(WIDTH, HEIGHT);
+	setMouseTracking(true);
 	InitHGE();
 }
 
@@ -46,7 +49,44 @@ bool PreviewFaerieWidget::FrameFunc() {
 	return false;
 }
 
+void PreviewFaerieWidget::ProcessHgeMessages() {
+	hgeInputEvent event;
+	while (_hge->Input_GetEvent(&event)) {
+		if (event.type == INPUT_KEYDOWN) {
+		} else if (event.type == INPUT_KEYUP) {
+		} else if (event.type == INPUT_MBUTTONDOWN) {
+			if (event.key == HGEK_LBUTTON) {
+				int x = int(event.x);
+				int y = int(event.y);
+				_faerie->OnLeftMouseDown(Point(x, y));
+			} else if (event.key == HGEK_RBUTTON) {
+			} else if (event.key == HGEK_MBUTTON) {
+			} else {
+				assert(false);
+			}
+		} else if (event.type == INPUT_MBUTTONUP) {
+			if (event.key == HGEK_LBUTTON) {
+				int x = int(event.x);
+				int y = int(event.y);
+				_faerie->OnLeftMouseUp(Point(x, y));
+			} else if (event.key == HGEK_RBUTTON) {
+			} else if (event.key == HGEK_MBUTTON) {
+			} else {
+				assert(false);
+			}
+		} else if (event.type == INPUT_MOUSEMOVE) {
+			int x = int(event.x);
+			int y = int(event.y);
+			_faerie->OnMouseMove(Point(x, y));
+		} else if (event.type == INPUT_MOUSEWHEEL) {
+		} else {
+			assert(false);
+		}
+	}
+}
+
 bool PreviewFaerieWidget::RenderFunc() {
+	ProcessHgeMessages();
 	int msecs = _time.msecsTo(QTime::currentTime());
 	assert(msecs >= 0);
 	_time = QTime::currentTime();
@@ -70,14 +110,7 @@ void PreviewFaerieWidget::Update(float dt) {
 	}
 }
 
-void PreviewFaerieWidget::paintEvent(QPaintEvent*) {
-	RenderFunc();
-}
-
-QPaintEngine * PreviewFaerieWidget::paintEngine () const {
-	return NULL;
-}
-
 Bone* PreviewFaerieWidget::GetBoneByName(std::string boneName) {
 	return _faerie->GetBoneByName(boneName);
 }
+

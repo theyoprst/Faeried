@@ -31,15 +31,27 @@ struct FPoint
 	}
 
 	//
+	// Конструктор по умолчанию
+	//
+	FPoint()
+		: x(0.0f)
+		, y(0.0f)
+	{
+	}
+
+	//
 	// Возвращает точку, повернутую на angle радиан по часовой стрелке
 	// относительно начала координат.
 	// На самом деле (математически), точка вращается против часовой стрелки,
 	// но так как ось Oy направлена вниз, то визуально вращение изменяет направление.
 	//
 	FPoint RotateClockwise(float angle) {
-		float x2 = x * cosf(angle) - y * sinf(angle);
-		float y2 = x * sinf(angle) + y * cosf(angle);
-		return FPoint(x2, y2);
+		float c = cosf(angle);
+		float s = sinf(angle);
+		return FPoint(
+			x * c - y * s,
+			x * s + y * c
+		);
 	}
 
 	//
@@ -47,6 +59,36 @@ struct FPoint
 	//
 	FPoint RotateCounterclockwise(float angle) {
 		return RotateClockwise(-angle);
+	}
+
+	//
+	// Возвращает угол поворота вектора относительно Ox по часовой стрелке
+	// (визуально)
+	//
+	float GetAngle() {
+		return atan2f(y, x);
+	}
+
+	//
+	// Возвращает направленный по часовой стрелке
+	// угол от этого вектора до другого (p2)
+	//
+	float GetDirectedAngleTo(FPoint p2) {
+		float angle = p2.GetAngle() - this->GetAngle();
+		if (angle < -Math::PI) {
+			return angle + Math::PI * 2;
+		} else if (angle > Math::PI) {
+			return angle - Math::PI * 2;
+		} else {
+			return angle;
+		}
+	}
+
+	//
+	// Округление для ближайшей целой точки
+	//
+	Point Round() {
+		return Point(Math::Round(x), Math::Round(y));
 	}
 
 	FPoint& operator += (const FPoint& right) {
@@ -68,4 +110,13 @@ struct FPoint
 	FPoint operator - (const FPoint& right) {
 		return FPoint(*this) -= right;
 	}
+
+	bool operator == (const FPoint& right) {
+		return x == right.x && y == right.y;
+	}
+
+	bool operator != (const FPoint& right) {
+		return !(*this == right);
+	}
+
 };

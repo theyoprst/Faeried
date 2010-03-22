@@ -3,6 +3,8 @@
 #include "M.h"
 #include "Xml.h"
 
+#include <QtCore/QPoint>
+
 //
 // Точка на плоскости
 //
@@ -23,11 +25,20 @@ struct Point
 	//
 	// Конструктор чтения точки из xml
 	//
-	Point(Xml::Node* xml) {
+	explicit Point(Xml::Node* xml) {
 		assert(xml->first_attribute("x") != NULL);
 		assert(xml->first_attribute("y") != NULL);
 		x = Math::ParseInt(xml->first_attribute("x")->value());
 		y = Math::ParseInt(xml->first_attribute("y")->value());
+	}
+
+	//
+	// Конструктор из QPoint-а
+	//
+	explicit Point(const QPoint& p)
+		: x(p.x())
+		, y(p.y())
+	{
 	}
 
 	//

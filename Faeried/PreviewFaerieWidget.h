@@ -4,6 +4,8 @@
 #include <QtCore/QTimer>
 #include <QtGui/QWidget>
 
+#include "Point.h"
+
 class Bone;
 class Faerie;
 class HGE;
@@ -71,13 +73,14 @@ private:
 	static void Update(float dt);
 
 	//
+	// Обработать сообщения от Hge
+	//
+	static void ProcessHgeMessages();
+
+	//
 	// Инициализировать HGE
 	//
 	void InitHGE();
-
-	/// TODO: а нельзя ли без этого?
-	virtual void paintEvent(QPaintEvent*);
-	virtual QPaintEngine * paintEngine () const;
 
 private slots:
 

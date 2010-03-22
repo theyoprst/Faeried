@@ -11,6 +11,7 @@ Bone::Bone(HGE* hge, Xml::Node* boneXml, BonesMap* bonesMap)
 	, _rotationPoint(0, 0)
 	, _angle(0.0f)
 	, _hge(hge)
+	, _isActive(false)
 {
 	assert(boneXml != NULL);
 	
@@ -48,9 +49,67 @@ void Bone::Draw(FPoint parentLeftTopCorner, float parentAngle) {
 		(*i)->Draw(leftTopCorner, parentAngle + _angle);
 	}
 	// так как мы вращаем против часовой стрелки, а RenderEx вращает по, то инвертируем угол.
+	if (_isActive) {
+		_sprite->SetColor(0xFF00AA00);
+	} else {
+		_sprite->SetColor(0xFFFFFFFF);
+	}
 	_sprite->RenderEx(rotationCenterPos.x, rotationCenterPos.y, - parentAngle - _angle);
+	
 }
 
 void Bone::SetAngleInDegrees(int angleInDegrees) {
 	_angle = angleInDegrees * Math::PI / 180.0f;
+}
+
+
+void Bone::SetNotActiveRecursively() {
+	_isActive = false;
+	for (Children::iterator i = _children.begin(); i != _children.end(); ++i) {
+		(*i)->SetNotActiveRecursively();
+	}
+}
+
+Bone* Bone::GetBoneUnderMouse(Point mouse, FPoint parentLeftTopCorner, float parentAngle) {
+	Bone* underMouseBone = NULL; // результат
+	FPoint rotationCenterPos = parentLeftTopCorner + FPoint(_inParentPosition).RotateCounterclockwise(parentAngle);
+	// мы знаем, что спрайт текстуры отрисовывается в точке rotationCenterPos под углом parentAngle + _angle против часовой
+	// поэтому вращаем все назад (в том числе и координаты мыши) и проверяем принадлежность мыши к содержательному
+	// прямоугольнику спрайта
+	Point p = (FPoint(mouse) - rotationCenterPos).RotateClockwise(parentAngle + _angle).Round();
+	hgeRect boundingBox;
+	_sprite->GetBoundingBox(0, 0, &boundingBox);
+	_isActive = boundingBox.TestPoint(p.x, p.y);
+	if (_isActive) {
+		underMouseBone = this;
+		_dragRotateCenter = rotationCenterPos;
+		_dragRotatePoint1 = FPoint(mouse);
+		_dragAngle1 = _angle;
+		if (_dragRotatePoint1 == _dragRotateCenter) {
+			// если мы кликаем прямо в центр вращения, то считаем что кликнули выше
+			_dragRotatePoint1 += FPoint(0.0f, -1.0f);
+		}
+	}
+	FPoint leftTopCorner = rotationCenterPos + FPoint(-_rotationPoint).RotateCounterclockwise(parentAngle + _angle);
+	for (Children::iterator i = _children.begin(); i != _children.end(); ++i) {
+		if (underMouseBone == NULL) {
+			underMouseBone = (*i)->GetBoneUnderMouse(mouse, leftTopCorner, parentAngle + _angle);
+		} else {
+			(*i)->SetNotActiveRecursively();
+		}
+	}
+	return underMouseBone;
+}
+
+void Bone::Drag(Point p) {
+	assert(_isActive);
+	FPoint dragRotatePoint2 = FPoint(p);
+	if (dragRotatePoint2 == _dragRotateCenter) {
+		dragRotatePoint2 += FPoint(0.0f, -1.0f);
+	}
+	// вычитаем, т.к. _angle - угол против часовой стрелки, а GetDirectedAngleTo возвращает угол по часовой стрелке
+	_angle = _dragAngle1 - (_dragRotatePoint1 - _dragRotateCenter).GetDirectedAngleTo(dragRotatePoint2 - _dragRotateCenter);
+}
+
+void Bone::FinishDragging() {
 }

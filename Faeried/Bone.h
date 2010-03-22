@@ -34,6 +34,21 @@ public:
 	//
 	void Draw(FPoint parentLeftTopCorner, float parentAngle);
 
+	//
+	// Возвращает кость под мышью; проверяет себя, затем детей.
+	//
+	Bone* GetBoneUnderMouse(Point p, FPoint parentLeftTopCorner, float parentAngle);
+
+	//
+	// Эту кость перетаскивают, обрабатываем вращение
+	//
+	void Drag(Point p);
+
+	//
+	// Эту кость отпустили, можно расслабиться
+	//
+	void FinishDragging();
+
 public slots:
 	
 	//
@@ -65,4 +80,18 @@ private:
 
 	float _angle;
 		// угол поворота в радианах против часовой стрелки
+
+	bool _isActive;
+		// значит либо навели, либо таскают; в любом случае, посвечиваем зеленым
+
+	FPoint _dragRotateCenter;
+		// центр вращения при перетаскивании
+
+	FPoint _dragRotatePoint1;
+		// начальные координаты мыши при вращении
+
+	float _dragAngle1;
+		// начальные угол при вращении
+
+	void SetNotActiveRecursively();
 };
