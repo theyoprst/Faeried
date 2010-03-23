@@ -1,53 +1,53 @@
 <faerie>
-	<bone name="pelvis">
+	<bone name="pelvis" underParent="false">
 		<texture path="i/pelvis.png" />
 		<parentPoint x="400" y="300" />
 		<rotationPoint x="9" y="10" />
-		<bone name="body">
+		<bone name="body" underParent="false">
 			<texture path="i/body.png" />
 			<parentPoint x="9" y="5" />
 			<rotationPoint x="9" y="26" />
-			<bone name="head">
+			<bone name="head" underParent="false">
 				<texture path="i/head.png" />
-				<parentPoint x="9" y="5" />
-				<rotationPoint x="13" y="22" />
+				<parentPoint x="9" y="0" />
+				<rotationPoint x="13" y="17" />
 			</bone>
-			<bone name="leftArm">
+			<bone name="leftArm" underParent="false">
 				<texture path="i/left_arm.png" />
-				<parentPoint x="4" y="6" />
-				<rotationPoint x="18" y="7" />
-				<bone name="leftForearm">
+				<parentPoint x="2" y="6" />
+				<rotationPoint x="16" y="7" />
+				<bone name="leftForearm" underParent="false">
 					<texture path="i/left_forearm.png" />
-					<parentPoint x="2" y="7" />
-					<rotationPoint x="24" y="3" />
+					<parentPoint x="1" y="7" />
+					<rotationPoint x="23" y="3" />
 				</bone>
 			</bone>
-			<bone name="rightArm">
+			<bone name="rightArm" underParent="false">
 				<texture path="i/right_arm.png" />
 				<parentPoint x="16" y="6" />
 				<rotationPoint x="3" y="7" />
-				<bone name="rightForearm">
+				<bone name="rightForearm" underParent="false">
 					<texture path="i/right_forearm.png" />
 					<parentPoint x="17" y="7" />
 					<rotationPoint x="2" y="3" />
 				</bone>
 			</bone>
 		</bone>
-		<bone name="leftThigh">
+		<bone name="leftThigh" underParent="true">
 			<texture path="i/left_thigh.png" />
-			<parentPoint x="4" y="12" />
-			<rotationPoint x="4" y="5" />
-			<bone name="leftLeg">
+			<parentPoint x="9" y="12" />
+			<rotationPoint x="9" y="5" />
+			<bone name="leftLeg" underParent="false">
 				<texture path="i/left_leg.png" />
-				<parentPoint x="8" y="31" />
-				<rotationPoint x="7" y="3" />
+				<parentPoint x="7" y="31" />
+				<rotationPoint x="5" y="3" />
 			</bone>
 		</bone>
-		<bone name="rightThigh">
+		<bone name="rightThigh" underParent="true">
 			<texture path="i/right_thigh.png" />
-			<parentPoint x="12" y="12" />
-			<rotationPoint x="6" y="5" />
-			<bone name="rightLeg">
+			<parentPoint x="9" y="12" />
+			<rotationPoint x="3" y="5" />
+			<bone name="rightLeg" underParent="false">
 				<texture path="i/right_leg.png" />
 				<parentPoint x="5" y="31" />
 				<rotationPoint x="5" y="3" />

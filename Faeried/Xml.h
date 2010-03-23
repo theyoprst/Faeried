@@ -1,8 +1,10 @@
 #pragma once
 
-#include "rapidxml/rapidxml.hpp"
 #include <iostream>
 #include <fstream>
+
+#include "Bool.h"
+#include "rapidxml/rapidxml.hpp"
 
 //
 // Структуры для более удобной работы с rapidxml
@@ -59,5 +61,14 @@ public:
 		delete[] _memblock;
 	}
 };
+
+//
+// Вернуть булевый атрибут. Атрибут обязан существовать
+//
+inline bool GetBoolAttribute(Node* node, std::string attributeName) {
+	Attribute* attribute = node->first_attribute(attributeName.c_str());
+	assert(attribute != NULL);
+	return Bool::Parse(attribute->value());
+}
 
 } // namespace Xml

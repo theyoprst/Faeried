@@ -49,6 +49,11 @@ public:
 	//
 	void FinishDragging();
 
+	//
+	// Рисуется ли под родителями
+	//
+	bool IsUnderParent();
+
 public slots:
 	
 	//
@@ -99,6 +104,9 @@ private:
 
 	float _dragAngle1;
 		// начальные угол при вращении
+
+	bool _underParent;
+		// рисовать ли под родителем
 
 	void SetNotActiveRecursively();
 };

@@ -4,6 +4,7 @@
 	Version="8,00"
 	Name="Faeried"
 	ProjectGUID="{63F5C55F-727B-40AD-911B-8594D16B595F}"
+	RootNamespace="Faeried"
 	Keyword="MakeFileProj"
 	>
 	<Platforms>
@@ -108,6 +109,10 @@
 		</File>
 		<File
 			RelativePath=".\BonesMap.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Bool.h"
 			>
 		</File>
 		<File

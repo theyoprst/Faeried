@@ -25,6 +25,7 @@ HEADERS += M.h
 HEADERS += AngleSliderWidget.h
 HEADERS += BonesMap.h
 HEADERS += Bone.h
+HEADERS += Bool.h
 
 win32:LIBS += D:\projects\hge181\lib\vc\hge.lib
 win32:LIBS += D:\projects\hge181\lib\vc\hgehelp.lib
