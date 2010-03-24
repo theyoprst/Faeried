@@ -88,7 +88,18 @@ private:
 	float _angle;
 		// угол поворота в радианах против часовой стрелки
 
-	bool _isActive;
+	enum {
+		
+		STATE_NORMAL,
+			// обычное состояние кости
+
+		STATE_ROTATING,
+			// кость вращается
+
+		STATE_MOVING,
+			// кость движется
+
+	} _state;
 		// значит либо навели, либо таскают; в любом случае, посвечиваем зеленым
 
 	FPoint _dragRotateCenter;
@@ -99,6 +110,18 @@ private:
 
 	float _dragAngle1;
 		// начальные угол при вращении
+
+	bool _isRoot;
+		// корневая ли кость
+
+	Point _dragInParentPosition;
+		// сохраненная позиция относительно родителя перед перетаскиванием
+
+	Point _dragMousePos;
+		// сохраненная позиция мыши перед перетаскиванием
+
+	bool _doNotLight;
+		// не подсвечивать
 
 	void SetNotActiveRecursively();
 };

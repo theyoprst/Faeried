@@ -42,6 +42,15 @@ struct Point
 	}
 
 	//
+	// Конструктор по умолчанию
+	//
+	Point()
+		: x(0)
+		, y(0)
+	{
+	}
+
+	//
 	// Оператор += для точки
 	//
 	Point& operator +=(const Point& right) {
@@ -54,7 +63,7 @@ struct Point
 	// Оператор + для точки.
 	// См http://www.cs.caltech.edu/courses/cs11/material/cpp/donnie/cpp-ops.html
 	//
-	const Point operator + (const Point& right) {
+	Point operator + (const Point& right) {
 		return Point(*this) += right;
 	}
 
@@ -68,9 +77,9 @@ struct Point
 	}
 
 	//
-	// Оператор + для точки.
+	// Оператор - для точки.
 	//
-	const Point operator - (const Point& right) {
+	Point operator - (const Point& right) {
 		return Point(*this) -= right;
 	}
 

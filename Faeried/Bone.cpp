@@ -11,7 +11,9 @@ Bone::Bone(HGE* hge, Xml::Node* boneXml, BonesMap* bonesMap)
 	, _rotationPoint(0, 0)
 	, _angle(0.0f)
 	, _hge(hge)
-	, _isActive(false)
+	, _state(STATE_NORMAL)
+	, _isRoot(false)
+	, _doNotLight(false)
 {
 	assert(boneXml != NULL);
 	
@@ -47,6 +49,8 @@ Bone::Bone(HGE* hge, Xml::Node* boneXml, BonesMap* bonesMap)
 		childBoneXml = childBoneXml->next_sibling("bone");
 	}
 	assert(wasThis);
+
+	_isRoot = boneXml->first_attribute("root") != NULL;
 }
 
 void Bone::Draw(FPoint parentLeftTopCorner, float parentAngle) {
@@ -57,13 +61,19 @@ void Bone::Draw(FPoint parentLeftTopCorner, float parentAngle) {
 			(*i)->Draw(leftTopCorner, parentAngle + _angle);
 		} else {
 			// сам себе ребенок
-			if (_isActive) {
+			if (_state == STATE_ROTATING && !_doNotLight) {
 				_sprite->SetColor(0xFF00AA00);
 			} else {
 				_sprite->SetColor(0xFFFFFFFF);
 			}
 			// так как мы вращаем против часовой стрелки, а RenderEx вращает по, то инвертируем угол.
+			_sprite->SetBlendMode(BLEND_DEFAULT);
 			_sprite->RenderEx(rotationCenterPos.x, rotationCenterPos.y, - parentAngle - _angle);
+			if (_state == STATE_MOVING) {
+				_sprite->SetBlendMode(BLEND_ALPHAADD | BLEND_COLORADD | BLEND_NOZWRITE);
+				_sprite->SetColor(0xFF0000AA);
+				_sprite->RenderEx(rotationCenterPos.x, rotationCenterPos.y, - parentAngle - _angle);
+			}
 		}
 	}
 }
@@ -74,7 +84,7 @@ void Bone::SetAngleInDegrees(int angleInDegrees) {
 
 
 void Bone::SetNotActiveRecursively() {
-	_isActive = false;
+	_state = STATE_NORMAL;
 	for (Children::iterator i = _children.begin(); i != _children.end(); ++i) {
 		if (*i != this) {
 			(*i)->SetNotActiveRecursively();
@@ -103,43 +113,73 @@ Bone* Bone::GetBoneUnderMouse(Point mouse, FPoint parentLeftTopCorner, float par
 			Point p = (FPoint(mouse) - rotationCenterPos).RotateClockwise(parentAngle + _angle).Round();
 			hgeRect boundingBox;
 			_sprite->GetBoundingBox(0, 0, &boundingBox);
-			_isActive = (underMouseBone == NULL) && boundingBox.TestPoint(p.x, p.y);
-			if (_isActive) {
+			bool isActive = (underMouseBone == NULL) && boundingBox.TestPoint(p.x, p.y);
+			if (isActive) {
 				underMouseBone = this;
-				_dragRotateCenter = rotationCenterPos;
-				_dragRotatePoint1 = FPoint(mouse);
-				_dragAngle1 = _angle;
-				if (_dragRotatePoint1 == _dragRotateCenter) {
-					// если мы кликаем прямо в центр вращения, то считаем что кликнули выше
-					_dragRotatePoint1 += FPoint(0.0f, -1.0f);
+				if (_isRoot) {
+					// Корневую кость не вращаем, а таскаем. Поэтому только запоминаем координаты мыши
+					_state = STATE_MOVING;
+					_dragMousePos = mouse;
+					_dragInParentPosition = _inParentPosition;
+				} else {
+					// Остальные кости вращаем, поэтому нам нужно запомнить чуть больше информации
+					_state = STATE_ROTATING;
+					_dragRotateCenter = rotationCenterPos;
+					_dragRotatePoint1 = FPoint(mouse);
+					_dragAngle1 = _angle;
+					if (_dragRotatePoint1 == _dragRotateCenter) {
+						// если мы кликаем прямо в центр вращения, то считаем что кликнули выше
+						_dragRotatePoint1 += FPoint(0.0f, -1.0f);
+					}
 				}
+			} else {
+				_state = STATE_NORMAL;
 			}
 		}
+	}
+	if (underMouseBone == NULL && _isRoot) {
+		// значит захватываем курсор и берем все на себя
+		_state = STATE_ROTATING;
+		_dragRotateCenter = rotationCenterPos;
+		_dragRotatePoint1 = FPoint(mouse);
+		_dragAngle1 = _angle;
+		underMouseBone = this;
+		_doNotLight = true;
 	}
 	return underMouseBone;
 }
 
 void Bone::Drag(Point p) {
-	assert(_isActive);
-	FPoint dragRotatePoint2 = FPoint(p);
-	if (dragRotatePoint2 == _dragRotateCenter) {
-		dragRotatePoint2 += FPoint(0.0f, -1.0f);
+	assert(_state != STATE_NORMAL);
+	if (_state == STATE_MOVING) {
+		// перетаскиваем
+		_inParentPosition = _dragInParentPosition + p - _dragMousePos;
+	} else if (_state == STATE_ROTATING) {
+		// вращаем
+		FPoint dragRotatePoint2 = FPoint(p);
+		if (dragRotatePoint2 == _dragRotateCenter) {
+			dragRotatePoint2 += FPoint(0.0f, -1.0f);
+		}
+		// вычитаем, т.к. _angle - угол против часовой стрелки, а GetDirectedAngleTo возвращает угол по часовой стрелке
+		_angle = _dragAngle1 - (_dragRotatePoint1 - _dragRotateCenter).GetDirectedAngleTo(dragRotatePoint2 - _dragRotateCenter);
+		// теперь приводим угол к отрезку [-PI; PI] и посылаем сигнал об изменении угла
+		while (_angle < -Math::PI) {
+			_angle += Math::PI * 2;
+		}
+		while (_angle > +Math::PI) {
+			_angle -= Math::PI * 2;
+		}
+		int angleInDegrees = Math::Round(_angle / Math::PI * 180.0f);
+		emit AngleInDegreesChanged(angleInDegrees);
+	} else {
+		assert(false);
 	}
-	// вычитаем, т.к. _angle - угол против часовой стрелки, а GetDirectedAngleTo возвращает угол по часовой стрелке
-	_angle = _dragAngle1 - (_dragRotatePoint1 - _dragRotateCenter).GetDirectedAngleTo(dragRotatePoint2 - _dragRotateCenter);
-	// теперь приводим угол к отрезку [-PI; PI] и посылаем сигнал об изменении угла
-	while (_angle < -Math::PI) {
-		_angle += Math::PI * 2;
-	}
-	while (_angle > +Math::PI) {
-		_angle -= Math::PI * 2;
-	}
-	int angleInDegrees = Math::Round(_angle / Math::PI * 180.0f);
-	emit AngleInDegreesChanged(angleInDegrees);
+	_doNotLight = false;
 }
 
 void Bone::FinishDragging() {
-	_isActive = false;
+	assert(_state != STATE_NORMAL);
+	_state = STATE_NORMAL;
 }
 
 

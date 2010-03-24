@@ -56,8 +56,8 @@ void PreviewFaerieWidget::ProcessHgeMessages() {
 		} else if (event.type == INPUT_KEYUP) {
 		} else if (event.type == INPUT_MBUTTONDOWN) {
 			if (event.key == HGEK_LBUTTON) {
-				int x = int(event.x);
-				int y = int(event.y);
+				int x = int(event.x) - WIDTH / 2;
+				int y = int(event.y) - HEIGHT / 2;
 				_faerie->OnLeftMouseDown(Point(x, y));
 			} else if (event.key == HGEK_RBUTTON) {
 			} else if (event.key == HGEK_MBUTTON) {
@@ -66,8 +66,8 @@ void PreviewFaerieWidget::ProcessHgeMessages() {
 			}
 		} else if (event.type == INPUT_MBUTTONUP) {
 			if (event.key == HGEK_LBUTTON) {
-				int x = int(event.x);
-				int y = int(event.y);
+				int x = int(event.x) - WIDTH / 2;
+				int y = int(event.y) - HEIGHT / 2;
 				_faerie->OnLeftMouseUp(Point(x, y));
 			} else if (event.key == HGEK_RBUTTON) {
 			} else if (event.key == HGEK_MBUTTON) {
@@ -75,8 +75,8 @@ void PreviewFaerieWidget::ProcessHgeMessages() {
 				assert(false);
 			}
 		} else if (event.type == INPUT_MOUSEMOVE) {
-			int x = int(event.x);
-			int y = int(event.y);
+			int x = int(event.x) - WIDTH / 2;
+			int y = int(event.y) - HEIGHT / 2;
 			_faerie->OnMouseMove(Point(x, y));
 		} else if (event.type == INPUT_MOUSEWHEEL) {
 		} else {
@@ -98,8 +98,10 @@ bool PreviewFaerieWidget::RenderFunc() {
 void PreviewFaerieWidget::Draw() {
 	_hge->Gfx_BeginScene();
 	_hge->Gfx_Clear(0x00000000);
+	_hge->Gfx_RenderLine(0, HEIGHT / 2, WIDTH, HEIGHT / 2, 0xff222222);
+	_hge->Gfx_RenderLine(WIDTH / 2, 0, WIDTH / 2, HEIGHT, 0xff222222);
 	if (_faerie != NULL) {
-		_faerie->Draw();
+		_faerie->Draw(WIDTH / 2, HEIGHT / 2);
 	}
 	_hge->Gfx_EndScene();
 }

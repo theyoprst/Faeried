@@ -1,7 +1,7 @@
 <faerie>
-	<bone name="pelvis">
+	<bone name="pelvis" root="true">
 		<texture path="i/pelvis.png" />
-		<parentPoint x="400" y="300" />
+		<parentPoint x="0" y="0" />
 		<rotationPoint x="9" y="10" />
 		<bone name="leftThigh">
 			<texture path="i/left_thigh.png" />

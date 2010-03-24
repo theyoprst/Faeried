@@ -23,7 +23,7 @@ public:
 	//
 	// Отрисовка
 	//
-	void Draw();
+	void Draw(int x, int y);
 
 	//
 	// Обновить фею

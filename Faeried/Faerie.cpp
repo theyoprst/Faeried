@@ -17,8 +17,8 @@ Faerie::Faerie(HGE* hge)
 	_rootBone = new Bone(hge, rootXml->first_node("bone"), &_bonesMap);
 }
 
-void Faerie::Draw() {
-	_rootBone->Draw(FPoint(0, 0), 0.0f);
+void Faerie::Draw(int x, int y) {
+	_rootBone->Draw(FPoint(x, y), 0.0f);
 }
 
 void Faerie::Update(float dt) {
