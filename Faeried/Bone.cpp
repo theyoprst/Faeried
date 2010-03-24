@@ -36,36 +36,34 @@ Bone::Bone(HGE* hge, Xml::Node* boneXml, BonesMap* bonesMap)
 	_sprite->SetHotSpot(float(_rotationPoint.x), float(_rotationPoint.y));
 
 	Xml::Node* childBoneXml = boneXml->first_node("bone");
+	bool wasThis = false;
 	while (childBoneXml != NULL) {
-		_children.push_back(new Bone(hge, childBoneXml, bonesMap));
+		if (childBoneXml->first_attribute("this") != NULL) {
+			_children.push_back(this);
+			wasThis = true;
+		} else {
+			_children.push_back(new Bone(hge, childBoneXml, bonesMap));
+		}
 		childBoneXml = childBoneXml->next_sibling("bone");
 	}
-	_underParent = Xml::GetBoolAttribute(boneXml, "underParent");
+	assert(wasThis);
 }
 
 void Bone::Draw(FPoint parentLeftTopCorner, float parentAngle) {
 	FPoint rotationCenterPos = parentLeftTopCorner + FPoint(_inParentPosition).RotateCounterclockwise(parentAngle);
 	FPoint leftTopCorner = rotationCenterPos + FPoint(-_rotationPoint).RotateCounterclockwise(parentAngle + _angle);
-	
-	// рисуем детей под родителем:
 	for (Children::iterator i = _children.begin(); i != _children.end(); ++i) {
-		if ((*i)->IsUnderParent()) {
+		if (*i != this) {
 			(*i)->Draw(leftTopCorner, parentAngle + _angle);
-		}
-	}
-	
-	if (_isActive) {
-		_sprite->SetColor(0xFF00AA00);
-	} else {
-		_sprite->SetColor(0xFFFFFFFF);
-	}
-	// так как мы вращаем против часовой стрелки, а RenderEx вращает по, то инвертируем угол.
-	_sprite->RenderEx(rotationCenterPos.x, rotationCenterPos.y, - parentAngle - _angle);
-
-	// рисуем детей над родителем:
-	for (Children::iterator i = _children.begin(); i != _children.end(); ++i) {
-		if (!(*i)->IsUnderParent()) {
-			(*i)->Draw(leftTopCorner, parentAngle + _angle);
+		} else {
+			// сам себе ребенок
+			if (_isActive) {
+				_sprite->SetColor(0xFF00AA00);
+			} else {
+				_sprite->SetColor(0xFFFFFFFF);
+			}
+			// так как мы вращаем против часовой стрелки, а RenderEx вращает по, то инвертируем угол.
+			_sprite->RenderEx(rotationCenterPos.x, rotationCenterPos.y, - parentAngle - _angle);
 		}
 	}
 }
@@ -78,7 +76,9 @@ void Bone::SetAngleInDegrees(int angleInDegrees) {
 void Bone::SetNotActiveRecursively() {
 	_isActive = false;
 	for (Children::iterator i = _children.begin(); i != _children.end(); ++i) {
-		(*i)->SetNotActiveRecursively();
+		if (*i != this) {
+			(*i)->SetNotActiveRecursively();
+		}
 	}
 }
 
@@ -89,41 +89,30 @@ Bone* Bone::GetBoneUnderMouse(Point mouse, FPoint parentLeftTopCorner, float par
 
 	// сначала проверяем детей, которые над родителем
 	for (Children::reverse_iterator i = _children.rbegin(); i != _children.rend(); ++i) {
-		if (!(*i)->IsUnderParent()) {
+		if (*i != this) {
 			if (underMouseBone == NULL) {
 				underMouseBone = (*i)->GetBoneUnderMouse(mouse, leftTopCorner, parentAngle + _angle);
 			} else {
 				(*i)->SetNotActiveRecursively();
 			}
-		}
-	}
-
-	// затем проверяем нашего родителя
-	// мы знаем, что спрайт текстуры отрисовывается в точке rotationCenterPos под углом parentAngle + _angle против часовой
-	// поэтому вращаем все назад (в том числе и координаты мыши) и проверяем принадлежность мыши к содержательному
-	// прямоугольнику спрайта
-	Point p = (FPoint(mouse) - rotationCenterPos).RotateClockwise(parentAngle + _angle).Round();
-	hgeRect boundingBox;
-	_sprite->GetBoundingBox(0, 0, &boundingBox);
-	_isActive = (underMouseBone == NULL) && boundingBox.TestPoint(p.x, p.y);
-	if (_isActive) {
-		underMouseBone = this;
-		_dragRotateCenter = rotationCenterPos;
-		_dragRotatePoint1 = FPoint(mouse);
-		_dragAngle1 = _angle;
-		if (_dragRotatePoint1 == _dragRotateCenter) {
-			// если мы кликаем прямо в центр вращения, то считаем что кликнули выше
-			_dragRotatePoint1 += FPoint(0.0f, -1.0f);
-		}
-	}
-	
-	// Затем проверяем детей, которые под родителями
-	for (Children::reverse_iterator i = _children.rbegin(); i != _children.rend(); ++i) {
-		if ((*i)->IsUnderParent()) {
-			if (underMouseBone == NULL) {
-				underMouseBone = (*i)->GetBoneUnderMouse(mouse, leftTopCorner, parentAngle + _angle);
-			} else {
-				(*i)->SetNotActiveRecursively();
+		} else {
+			// сам себе ребенок
+			// мы знаем, что спрайт текстуры отрисовывается в точке rotationCenterPos под углом parentAngle + _angle против часовой
+			// поэтому вращаем все назад (в том числе и координаты мыши) и проверяем принадлежность мыши к содержательному
+			// прямоугольнику спрайта
+			Point p = (FPoint(mouse) - rotationCenterPos).RotateClockwise(parentAngle + _angle).Round();
+			hgeRect boundingBox;
+			_sprite->GetBoundingBox(0, 0, &boundingBox);
+			_isActive = (underMouseBone == NULL) && boundingBox.TestPoint(p.x, p.y);
+			if (_isActive) {
+				underMouseBone = this;
+				_dragRotateCenter = rotationCenterPos;
+				_dragRotatePoint1 = FPoint(mouse);
+				_dragAngle1 = _angle;
+				if (_dragRotatePoint1 == _dragRotateCenter) {
+					// если мы кликаем прямо в центр вращения, то считаем что кликнули выше
+					_dragRotatePoint1 += FPoint(0.0f, -1.0f);
+				}
 			}
 		}
 	}
@@ -153,7 +142,4 @@ void Bone::FinishDragging() {
 	_isActive = false;
 }
 
-bool Bone::IsUnderParent() {
-	return _underParent;
-}
 

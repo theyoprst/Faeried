@@ -49,11 +49,6 @@ public:
 	//
 	void FinishDragging();
 
-	//
-	// Рисуется ли под родителями
-	//
-	bool IsUnderParent();
-
 public slots:
 	
 	//
@@ -88,7 +83,7 @@ private:
 	typedef std::list<Bone*> Children;
 	
 	Children _children;
-		// детские кости
+		// список детей; сюда же входит и родитель - для отрисовки в нужном порядке
 
 	float _angle;
 		// угол поворота в радианах против часовой стрелки
@@ -104,9 +99,6 @@ private:
 
 	float _dragAngle1;
 		// начальные угол при вращении
-
-	bool _underParent;
-		// рисовать ли под родителем
 
 	void SetNotActiveRecursively();
 };
