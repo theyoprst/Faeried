@@ -5,6 +5,8 @@
 
 #include "BonesMap.h"
 
+float Bone::_scale = 4.f;
+
 Bone::Bone(HGE* hge, Xml::Node* boneXml, BonesMap* bonesMap)
 	: QObject()
 	, _inParentPosition(0, 0)
@@ -54,8 +56,8 @@ Bone::Bone(HGE* hge, Xml::Node* boneXml, BonesMap* bonesMap)
 }
 
 void Bone::Draw(FPoint parentLeftTopCorner, float parentAngle) {
-	FPoint rotationCenterPos = parentLeftTopCorner + FPoint(_inParentPosition).RotateCounterclockwise(parentAngle);
-	FPoint leftTopCorner = rotationCenterPos + FPoint(-_rotationPoint).RotateCounterclockwise(parentAngle + _angle);
+	FPoint rotationCenterPos = parentLeftTopCorner + FPoint(_inParentPosition).Scale(_scale).RotateCounterclockwise(parentAngle);
+	FPoint leftTopCorner = rotationCenterPos + FPoint(-_rotationPoint).Scale(_scale).RotateCounterclockwise(parentAngle + _angle);
 	for (Children::iterator i = _children.begin(); i != _children.end(); ++i) {
 		if (*i != this) {
 			(*i)->Draw(leftTopCorner, parentAngle + _angle);
@@ -68,11 +70,11 @@ void Bone::Draw(FPoint parentLeftTopCorner, float parentAngle) {
 			}
 			// так как мы вращаем против часовой стрелки, а RenderEx вращает по, то инвертируем угол.
 			_sprite->SetBlendMode(BLEND_DEFAULT);
-			_sprite->RenderEx(rotationCenterPos.x, rotationCenterPos.y, - parentAngle - _angle);
+			_sprite->RenderEx(rotationCenterPos.x, rotationCenterPos.y, - parentAngle - _angle, _scale);
 			if (_state == STATE_MOVING) {
 				_sprite->SetBlendMode(BLEND_ALPHAADD | BLEND_COLORADD | BLEND_NOZWRITE);
 				_sprite->SetColor(0xFF0000AA);
-				_sprite->RenderEx(rotationCenterPos.x, rotationCenterPos.y, - parentAngle - _angle);
+				_sprite->RenderEx(rotationCenterPos.x, rotationCenterPos.y, - parentAngle - _angle, _scale);
 			}
 		}
 	}
@@ -94,8 +96,8 @@ void Bone::SetNotActiveRecursively() {
 
 Bone* Bone::GetBoneUnderMouse(Point mouse, FPoint parentLeftTopCorner, float parentAngle) {
 	Bone* underMouseBone = NULL; // результат
-	FPoint rotationCenterPos = parentLeftTopCorner + FPoint(_inParentPosition).RotateCounterclockwise(parentAngle);
-	FPoint leftTopCorner = rotationCenterPos + FPoint(-_rotationPoint).RotateCounterclockwise(parentAngle + _angle);
+	FPoint rotationCenterPos = parentLeftTopCorner + FPoint(_inParentPosition).Scale(_scale).RotateCounterclockwise(parentAngle);
+	FPoint leftTopCorner = rotationCenterPos + FPoint(-_rotationPoint).Scale(_scale).RotateCounterclockwise(parentAngle + _angle);
 
 	// сначала проверяем детей, которые над родителем
 	for (Children::reverse_iterator i = _children.rbegin(); i != _children.rend(); ++i) {
@@ -110,7 +112,7 @@ Bone* Bone::GetBoneUnderMouse(Point mouse, FPoint parentLeftTopCorner, float par
 			// мы знаем, что спрайт текстуры отрисовывается в точке rotationCenterPos под углом parentAngle + _angle против часовой
 			// поэтому вращаем все назад (в том числе и координаты мыши) и проверяем принадлежность мыши к содержательному
 			// прямоугольнику спрайта
-			Point p = (FPoint(mouse) - rotationCenterPos).RotateClockwise(parentAngle + _angle).Round();
+			Point p = (FPoint(mouse) - rotationCenterPos).RotateClockwise(parentAngle + _angle).Divide(_scale).Round();
 			hgeRect boundingBox;
 			_sprite->GetBoundingBox(0, 0, &boundingBox);
 			bool isActive = (underMouseBone == NULL) && boundingBox.TestPoint(p.x, p.y);
@@ -153,7 +155,7 @@ void Bone::Drag(Point p) {
 	assert(_state != STATE_NORMAL);
 	if (_state == STATE_MOVING) {
 		// перетаскиваем
-		_inParentPosition = _dragInParentPosition + p - _dragMousePos;
+		_inParentPosition = _dragInParentPosition + FPoint(p - _dragMousePos).Scale(1 / _scale).Round();
 	} else if (_state == STATE_ROTATING) {
 		// вращаем
 		FPoint dragRotatePoint2 = FPoint(p);

@@ -15,6 +15,8 @@ SOURCES += Faerie.cpp
 SOURCES += Bone.cpp
 SOURCES += AngleSliderWidget.cpp
 SOURCES += BonesMap.cpp
+SOURCES += MainWidget.cpp
+SOURCES += PlaybackWidget.cpp
 
 HEADERS += PreviewFaerieWidget.h
 HEADERS += SettingsWidget.h
@@ -26,6 +28,8 @@ HEADERS += AngleSliderWidget.h
 HEADERS += BonesMap.h
 HEADERS += Bone.h
 HEADERS += Bool.h
+HEADERS += MainWidget.h
+HEADERS += PlaybackWidget.h
 
 win32:LIBS += D:\projects\hge181\lib\vc\hge.lib
 win32:LIBS += D:\projects\hge181\lib\vc\hgehelp.lib

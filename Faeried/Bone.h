@@ -65,6 +65,9 @@ signals:
 
 private:
 	
+	static float _scale;
+		// масштаб
+
 	std::string _name;
 		// уникальное имя кости
 

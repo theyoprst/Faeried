@@ -1,19 +1,11 @@
 #include <QtGui/QApplication>
 #include <QtGui/QMainWindow>
 
-#include "PreviewFaerieWidget.h"
-#include "SettingsWidget.h"
+#include "MainWidget.h"
 
 int main(int argc, char* argv[]) {
-
 	QApplication app(argc, argv);
-	
-	PreviewFaerieWidget preview;
-	preview.show();
-
-	// SettingsWidget должен создаваться последним
-	SettingsWidget settings(&preview);
-	settings.show();
-
+	MainWidget mainWidget;
+	mainWidget.show();
 	return app.exec();
 }

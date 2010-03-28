@@ -80,87 +80,115 @@
 			</File>
 		</Filter>
 		<Filter
-			Name="XML"
+			Name="XML files"
 			>
 			<File
 				RelativePath="..\bin\bones.xml"
 				>
 			</File>
 		</Filter>
-		<File
-			RelativePath=".\AngleSliderWidget.cpp"
+		<Filter
+			Name="Widgets"
 			>
-		</File>
-		<File
-			RelativePath=".\AngleSliderWidget.h"
+			<File
+				RelativePath=".\AngleSliderWidget.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\AngleSliderWidget.h"
+				>
+			</File>
+			<File
+				RelativePath=".\MainWidget.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\MainWidget.h"
+				>
+			</File>
+			<File
+				RelativePath=".\PlaybackWidget.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\PlaybackWidget.h"
+				>
+			</File>
+			<File
+				RelativePath=".\PreviewFaerieWidget.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\PreviewFaerieWidget.h"
+				>
+			</File>
+			<File
+				RelativePath=".\SettingsWidget.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\SettingsWidget.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Utils"
 			>
-		</File>
-		<File
-			RelativePath=".\Bone.cpp"
+			<File
+				RelativePath=".\FPoint.h"
+				>
+			</File>
+			<File
+				RelativePath=".\M.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Point.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Xml.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Faerie"
 			>
-		</File>
-		<File
-			RelativePath=".\Bone.h"
-			>
-		</File>
-		<File
-			RelativePath=".\BonesMap.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\BonesMap.h"
-			>
-		</File>
-		<File
-			RelativePath=".\Bool.h"
-			>
-		</File>
-		<File
-			RelativePath=".\Faerie.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Faerie.h"
-			>
-		</File>
+			<File
+				RelativePath=".\Bone.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Bone.h"
+				>
+			</File>
+			<File
+				RelativePath=".\BonesMap.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\BonesMap.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Bool.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Faerie.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Faerie.h"
+				>
+			</File>
+		</Filter>
 		<File
 			RelativePath=".\Faeried.pro"
 			>
 		</File>
 		<File
-			RelativePath=".\FPoint.h"
-			>
-		</File>
-		<File
-			RelativePath=".\M.h"
-			>
-		</File>
-		<File
 			RelativePath=".\main.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Point.h"
-			>
-		</File>
-		<File
-			RelativePath=".\PreviewFaerieWidget.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\PreviewFaerieWidget.h"
-			>
-		</File>
-		<File
-			RelativePath=".\SettingsWidget.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\SettingsWidget.h"
-			>
-		</File>
-		<File
-			RelativePath=".\Xml.h"
 			>
 		</File>
 	</Files>
