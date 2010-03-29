@@ -24,4 +24,14 @@ public slots:
 	// Установить список анимаций
 	//
 	void SetAnimationsList(const QStringList& texts);
+
+	//
+	// Установить имя текущей анимации
+	//
+	void SetCurrentAnimation(std::string animationName);
+
+private:
+
+	QStringList _animationNames;
+		// имена анимаций
 };

@@ -31,6 +31,7 @@ LeftPanelWidget::LeftPanelWidget(QWidget* parent, FaerieAnimationsDelegate* anim
 QLayout* LeftPanelWidget::CreateAnimationsLayout() {
 	AnimationsComboBox* animationsCombo = new AnimationsComboBox(this);
 	connect(_animations, SIGNAL(SetAnimationsList(const QStringList&)), animationsCombo, SLOT(SetAnimationsList(const QStringList&)));
+	connect(_animations, SIGNAL(SetCurrentAnimation(std::string)), animationsCombo, SLOT(SetCurrentAnimation(std::string)));
 	animationsCombo->show();
 
 	QPushButton* newAnimationButton = new QPushButton(tr("Новая"));
@@ -40,7 +41,7 @@ QLayout* LeftPanelWidget::CreateAnimationsLayout() {
 	QPushButton* deleteAnimationButton = new QPushButton(tr("Удалить"));
 	deleteAnimationButton->setIcon(style()->standardIcon(QStyle::SP_TrashIcon));
 	connect(deleteAnimationButton, SIGNAL(clicked()), this, SLOT(ConfirmDeleteAnimation()));
-	connect(_animations, SIGNAL(AnimationIsSelected(bool)), this, SLOT(setEnabled(bool)));
+	connect(_animations, SIGNAL(AnimationIsSelected(bool)), deleteAnimationButton, SLOT(setEnabled(bool)));
 
 	QHBoxLayout* line = new QHBoxLayout();
 	line->addWidget(animationsCombo);
@@ -69,13 +70,16 @@ QLayout* LeftPanelWidget::CreateFramesListLayout() {
 	FramesListWidget* frames = new FramesListWidget(0);
 	connect(frames, SIGNAL(currentRowChanged(int)), _animations, SLOT(SetCurrentFrameNumber(int)));
 	connect(_animations, SIGNAL(SetFramesList(const QStringList&)), frames, SLOT(SetFramesList(const QStringList&)));
+	connect(_animations, SIGNAL(AnimationIsSelected(bool)), frames, SLOT(setEnabled(bool)));
 
 	// справа выстраиваем кнопочки в столбик
 	QPushButton* buttonClone = new QPushButton(tr("Дублировать"));
 	buttonClone->setIcon(style()->standardIcon(QStyle::SP_ArrowDown));
+	connect(_animations, SIGNAL(AnimationIsSelected(bool)), buttonClone, SLOT(setEnabled(bool)));
 
 	QPushButton* buttonRemove = new QPushButton(tr("Удалить"));
 	buttonRemove->setIcon(style()->standardIcon(QStyle::SP_DialogDiscardButton));
+	connect(_animations, SIGNAL(AnimationIsSelected(bool)), buttonRemove, SLOT(setEnabled(bool)));
 
 	QVBoxLayout* column = new QVBoxLayout;
 	column->addWidget(buttonClone);
@@ -102,6 +106,9 @@ QLayout* LeftPanelWidget::CreateButtonsLayout() {
 	line->addWidget(saveAll);
 	line->addWidget(discardAll);
 	line->addStretch(1);
+
+	connect(_animations, SIGNAL(AnimationIsSelected(bool)), line, SLOT(setEnabled(bool)));
+
 	return line;
 }
 
@@ -135,15 +142,34 @@ QWidget* LeftPanelWidget::CreateFrameSettings() {
 	grid->addWidget(new QSpinBox, 11, 1);
 	grid->addWidget(new QSpinBox, 12, 1);
 	groupBox->setLayout(grid);
+	connect(_animations, SIGNAL(AnimationIsSelected(bool)), groupBox, SLOT(setEnabled(bool)));
 	grid->setVerticalSpacing(1);
 	return groupBox;
 }
 
 void LeftPanelWidget::AskNewAnimationName() {
 	bool okPressed = false;
-	QString animationName = QInputDialog::getText(this, tr("Имя"), tr("Введите имя анимации"), QLineEdit::Normal, tr(""), &okPressed);
-	if (okPressed && !_animations->HasAnimation(animationName.toStdString())) {
-		_animations->AddAnimation(animationName.toStdString());
+	QString animationName = QInputDialog::getText(this, tr("Имя анимации"), tr("Введите имя анимации"), QLineEdit::Normal, tr(""), &okPressed);
+	if (okPressed) {
+		QRegExp regExp("[a-zA-Z0-9\\._\\-\\s]+");
+		if (regExp.exactMatch(animationName)) {
+			if (!_animations->HasAnimation(animationName.toStdString())) {
+				_animations->AddAnimation(animationName.toStdString());
+			} else {
+				QMessageBox animationExists(this);
+				animationExists.setText(tr("Анимация с таким именем уже существует"));
+				animationExists.setStandardButtons(QMessageBox::Ok);
+				animationExists.setIcon(QMessageBox::Warning);
+				animationExists.exec();
+			}
+		} else {
+			QMessageBox animationExists(this);
+			animationExists.setText(tr("Неправильное имя анимации"));
+			animationExists.setDetailedText(tr("Имя должно состоять из латинских букв, цифр и некоторых других знаков"));
+			animationExists.setStandardButtons(QMessageBox::Ok);
+			animationExists.setIcon(QMessageBox::Warning);
+			animationExists.exec();
+		}
 	}
 }
 

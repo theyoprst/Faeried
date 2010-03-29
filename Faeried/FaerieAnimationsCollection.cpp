@@ -48,7 +48,7 @@ void FaerieAnimationsCollection::DeleteAnimation(std::string animationName) {
 
 StringVector FaerieAnimationsCollection::GetAnimationsNames() {
 	StringVector result;
-	for (MapAnimations::iterator i = _mapAnimations.begin(); i != _mapAnimations.end(); --i) {
+	for (MapAnimations::iterator i = _mapAnimations.begin(); i != _mapAnimations.end(); ++i) {
 		result.push_back(i->first);
 	}
 	return result;

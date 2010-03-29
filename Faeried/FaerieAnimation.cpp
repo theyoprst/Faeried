@@ -13,6 +13,7 @@ FaerieAnimation::FaerieAnimation(Xml::Node* element)
 
 FaerieAnimation::FaerieAnimation(std::string name)
 	: _name(name)
+	, _time(5.0f)
 {
 	_keyFrames.push_back(FaerieFrame());
 }

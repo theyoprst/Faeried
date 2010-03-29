@@ -59,6 +59,11 @@ signals:
 	//
 	void InitAnimationTime(float time);
 
+	//
+	// Установить идентификатор текущей анимации
+	//
+	void SetCurrentAnimation(std::string);
+
 public slots:
 
 	//
@@ -82,6 +87,11 @@ public slots:
 	void SetCurrentFrameNumber(int number);
 
 private:
+
+	//
+	// Вернуть список анимаций
+	//
+	QStringList GetAnimationsList();
 
 	FaerieAnimationsCollection* _collection;
 		// коллекция анимаций

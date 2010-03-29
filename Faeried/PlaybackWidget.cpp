@@ -5,6 +5,8 @@
 #include <QtGui/QPushButton>
 #include <QtGui/QSlider>
 
+#include "FaerieAnimationsDelegate.h"
+
 PlaybackWidget::PlaybackWidget(QWidget* parent, FaerieAnimationsDelegate* animations)
 	: QWidget(parent)
 {
@@ -12,6 +14,7 @@ PlaybackWidget::PlaybackWidget(QWidget* parent, FaerieAnimationsDelegate* animat
 
 	QPushButton* playbackButton = new QPushButton(this);
 	playbackButton->setIcon(style()->standardIcon(QStyle::SP_MediaPlay));
+	connect(animations, SIGNAL(AnimationIsSelected(bool)), playbackButton, SLOT(setEnabled(bool)));
 
 	QSlider* playbackSlider = new QSlider(Qt::Horizontal, this);
 	playbackSlider->setMinimum(0);

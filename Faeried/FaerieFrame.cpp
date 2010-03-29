@@ -5,7 +5,6 @@ FaerieFrame::FaerieFrame(Xml::Node* element)
 	Xml::Node* bonesXml = element->first_node("bones");
 	assert(bonesXml != NULL);
 	Xml::Attribute* attributeXml = bonesXml->first_attribute();
-	assert(attributeXml != NULL);
 	while (attributeXml != NULL) {
 		std::string boneName = attributeXml->name();
 		int angle = Int::Parse(attributeXml->value());

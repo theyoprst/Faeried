@@ -18,7 +18,8 @@ bool FaerieAnimationsDelegate::HasAnimation(std::string name) {
 void FaerieAnimationsDelegate::AddAnimation(std::string name) {
 	_currentAnimation = new FaerieAnimation(name);
 	_collection->AddAnimation(new FaerieAnimation(name));
-	// TODO:
+	emit SetAnimationsList(GetAnimationsList());
+	emit SetCurrentAnimation(name);
 }
 
 void FaerieAnimationsDelegate::DeleteCurrentAnimation() {
@@ -28,12 +29,17 @@ void FaerieAnimationsDelegate::DeleteCurrentAnimation() {
 }
 
 void FaerieAnimationsDelegate::InitView() {
+	emit SetAnimationsList(GetAnimationsList());
+	emit AnimationIsSelected(false);
+}
+
+QStringList FaerieAnimationsDelegate::GetAnimationsList() {
 	StringVector names = _collection->GetAnimationsNames();
 	QStringList animationsList;
 	for (StringVector::iterator i = names.begin(); i != names.end(); ++i) {
-		animationsList.push_back(QString(i->c_str()));
+		animationsList.push_back(tr(i->c_str()));
 	}
-	emit SetAnimationsList(animationsList);
+	return animationsList;
 }
 
 void FaerieAnimationsDelegate::SetAnimationTime(float time) {
