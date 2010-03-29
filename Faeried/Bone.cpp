@@ -156,6 +156,7 @@ void Bone::Drag(Point p) {
 	if (_state == STATE_MOVING) {
 		// перетаскиваем
 		_inParentPosition = _dragInParentPosition + FPoint(p - _dragMousePos).Scale(1 / _scale).Round();
+		emit ShiftChanged(_inParentPosition);
 	} else if (_state == STATE_ROTATING) {
 		// вращаем
 		FPoint dragRotatePoint2 = FPoint(p);
@@ -172,7 +173,7 @@ void Bone::Drag(Point p) {
 			_angle -= Math::PI * 2;
 		}
 		int angleInDegrees = Math::Round(_angle / Math::PI * 180.0f);
-		emit AngleInDegreesChanged(angleInDegrees);
+		emit AngleInDegreesChanged(_name, angleInDegrees);
 	} else {
 		assert(false);
 	}

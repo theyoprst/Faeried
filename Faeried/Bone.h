@@ -61,7 +61,12 @@ signals:
 	//
 	// Сигнал изменения угла
 	//
-	void AngleInDegreesChanged(int newAngle);
+	void AngleInDegreesChanged(std::string _name, int newAngle);
+
+	//
+	// Сигнал изменения положения
+	//
+	void ShiftChanged(Point newShift);
 
 private:
 	

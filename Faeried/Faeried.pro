@@ -8,28 +8,47 @@ DEPENDPATH += .
 INCLUDEPATH += .
 
 # Input
+
 SOURCES += main.cpp
-SOURCES += PreviewFaerieWidget.cpp
-SOURCES += SettingsWidget.cpp
-SOURCES += Faerie.cpp
-SOURCES += Bone.cpp
+
 SOURCES += AngleSliderWidget.cpp
+SOURCES += AnimationsComboBox.cpp
+SOURCES += Bone.cpp
 SOURCES += BonesMap.cpp
+SOURCES += Faerie.cpp
+SOURCES += FaerieAnimation.cpp
+SOURCES += FaerieAnimationsCollection.cpp
+SOURCES += FaerieAnimationsDelegate.cpp
+SOURCES += FaerieFrame.cpp
+SOURCES += FramesListWidget.cpp
+SOURCES += LeftPanelWidget.cpp
 SOURCES += MainWidget.cpp
 SOURCES += PlaybackWidget.cpp
+SOURCES += PreviewFaerieWidget.cpp
 
-HEADERS += PreviewFaerieWidget.h
-HEADERS += SettingsWidget.h
-HEADERS += Faerie.h
-HEADERS += Xml.h
-HEADERS += Point.h
-HEADERS += M.h
 HEADERS += AngleSliderWidget.h
-HEADERS += BonesMap.h
+HEADERS += AnimationsComboBox.h
 HEADERS += Bone.h
+HEADERS += BonesMap.h
 HEADERS += Bool.h
+HEADERS += Faerie.h
+HEADERS += FaerieAnimation.h
+HEADERS += FaerieAnimationsCollection.h
+HEADERS += FaerieAnimationsDelegate.h
+HEADERS += FaerieFrame.h
+HEADERS += Float.h
+HEADERS += FPoint.h
+HEADERS += FramesListWidget.h
+HEADERS += Int.h
+HEADERS += LeftPanelWidget.h
+HEADERS += M.h
 HEADERS += MainWidget.h
 HEADERS += PlaybackWidget.h
+HEADERS += Point.h
+HEADERS += PreviewFaerieWidget.h
+HEADERS += Spline.h
+HEADERS += Types.h
+HEADERS += Xml.h
 
 win32:LIBS += D:\projects\hge181\lib\vc\hge.lib
 win32:LIBS += D:\projects\hge181\lib\vc\hgehelp.lib

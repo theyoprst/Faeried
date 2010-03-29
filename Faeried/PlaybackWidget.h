@@ -2,6 +2,8 @@
 
 #include <QtGui/QWidget>
 
+class FaerieAnimationsDelegate;
+
 //
 // Класс, содержащий виджеты для управления проигрыванием
 //
@@ -14,6 +16,6 @@ public:
 	//
 	// Конструктор
 	//
-	PlaybackWidget(QWidget* parent = 0);
+	PlaybackWidget(QWidget* parent, FaerieAnimationsDelegate* animations);
 
 };

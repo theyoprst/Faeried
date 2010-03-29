@@ -8,6 +8,7 @@
 
 class Bone;
 class Faerie;
+class FaerieAnimationsDelegate;
 class HGE;
 
 //
@@ -25,7 +26,7 @@ public:
 	//
 	// Конструктор
 	//
-	PreviewFaerieWidget(QWidget* parent = 0);
+	PreviewFaerieWidget(QWidget* parent, FaerieAnimationsDelegate* animations);
 
 	//
 	// Декструктор

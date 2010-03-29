@@ -5,20 +5,19 @@
 #include <QtGui/QHBoxLayout>
 #include <QtGui/QMessageBox>
 
+#include "LeftPanelWidget.h"
 #include "PlaybackWidget.h"
 #include "PreviewFaerieWidget.h"
-#include "SettingsWidget.h"
 
-MainWidget::MainWidget()
+MainWidget::MainWidget(FaerieAnimationsDelegate* animations)
 	: QWidget()
 {
 	// Это для того, чтобы использовать cp1251
 	QTextCodec::setCodecForTr(QTextCodec::codecForName("Windows-1251")); 
 	
-	PreviewFaerieWidget* preview = new PreviewFaerieWidget(this);
-	SettingsWidget* settings = new SettingsWidget(preview);
-	settings->setParent(this);
-	PlaybackWidget* playback = new PlaybackWidget(this);
+	PreviewFaerieWidget* preview = new PreviewFaerieWidget(this, animations);
+	LeftPanelWidget* leftPanel = new LeftPanelWidget(this, animations);
+	PlaybackWidget* playback = new PlaybackWidget(this, animations);
 
 	QVBoxLayout* previewAndPlayback = new QVBoxLayout;
 	previewAndPlayback->addStretch(1);
@@ -27,7 +26,7 @@ MainWidget::MainWidget()
 	previewAndPlayback->addStretch(1);
 
 	QHBoxLayout* layout = new QHBoxLayout();
-	layout->addWidget(settings);
+	layout->addWidget(leftPanel);
 	layout->addLayout(previewAndPlayback);
 	layout->setContentsMargins(0, 0, 0, 0);
 	setLayout(layout);

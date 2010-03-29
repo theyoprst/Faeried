@@ -10,7 +10,7 @@ Faerie::Faerie(HGE* hge)
 	: _state(STATE_WAITING)
 	, _draggingBone(NULL)
 {
-	Xml::Document doc("bones.xml");
+	Xml::ReadDocument doc("bones.xml");
 	Xml::Node* rootXml = doc.first_node();
 	assert(rootXml != NULL);
 	assert(rootXml->first_node() != NULL);

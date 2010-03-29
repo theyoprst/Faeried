@@ -1,0 +1,9 @@
+<animations>
+	<animation name="1" time="-431602080.000000">
+		<keyFrame>
+			<bones/>
+			<shift x="0" y="0"/>
+		</keyFrame>
+	</animation>
+</animations>
+

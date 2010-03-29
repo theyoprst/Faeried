@@ -1,6 +1,6 @@
 #pragma once
 
-#include "M.h"
+#include "Int.h"
 #include "Xml.h"
 
 #include <QtCore/QPoint>
@@ -28,8 +28,8 @@ struct Point
 	explicit Point(Xml::Node* xml) {
 		assert(xml->first_attribute("x") != NULL);
 		assert(xml->first_attribute("y") != NULL);
-		x = Math::ParseInt(xml->first_attribute("x")->value());
-		y = Math::ParseInt(xml->first_attribute("y")->value());
+		x = Int::Parse(xml->first_attribute("x")->value());
+		y = Int::Parse(xml->first_attribute("y")->value());
 	}
 
 	//

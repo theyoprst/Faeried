@@ -11,25 +11,14 @@ HGE* PreviewFaerieWidget::_hge = NULL;
 Faerie* PreviewFaerieWidget::_faerie = NULL;
 QTime PreviewFaerieWidget::_time = QTime::currentTime();
 
-PreviewFaerieWidget::PreviewFaerieWidget(QWidget* parent)
-	: QWidget(parent, Qt::Widget
-		//| Qt::SubWindow
-		//| Qt::WindowSystemMenuHint
-		//| Qt::SplashScreen
-		//| Qt::WindowMaximizeButtonHint
-		//| Qt::WindowMinimizeButtonHint
-		//| Qt::CustomizeWindowHint
-		//| Qt::MacWindowToolBarButtonHint 
-		//| Qt::WindowOkButtonHint
-		)
+PreviewFaerieWidget::PreviewFaerieWidget(QWidget* parent, FaerieAnimationsDelegate* animations)
+	: QWidget(parent, Qt::Widget)
 {
 	assert(testAttribute(Qt::WA_PaintOnScreen) == false);
 	setAttribute(Qt::WA_PaintOnScreen, true);
-	setWindowTitle("Faerie preview");
 	setFixedSize(WIDTH, HEIGHT);
 	setMouseTracking(true);
 	InitHGE();
-	//this->setFeatures(QDockWidget::AllDockWidgetFeatures);
 }
 
 void PreviewFaerieWidget::InitHGE() {

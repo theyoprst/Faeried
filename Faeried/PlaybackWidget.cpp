@@ -5,7 +5,7 @@
 #include <QtGui/QPushButton>
 #include <QtGui/QSlider>
 
-PlaybackWidget::PlaybackWidget(QWidget* parent)
+PlaybackWidget::PlaybackWidget(QWidget* parent, FaerieAnimationsDelegate* animations)
 	: QWidget(parent)
 {
 	QHBoxLayout* layout = new QHBoxLayout;
@@ -16,6 +16,7 @@ PlaybackWidget::PlaybackWidget(QWidget* parent)
 	QSlider* playbackSlider = new QSlider(Qt::Horizontal, this);
 	playbackSlider->setMinimum(0);
 	playbackSlider->setMaximum(1000);
+	playbackSlider->setEnabled(false);
 
 	QComboBox* scalesCombo = new QComboBox(this);
 	scalesCombo->addItem(tr("100%"));

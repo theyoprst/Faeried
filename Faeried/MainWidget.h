@@ -2,6 +2,8 @@
 
 #include <QtGui/QWidget.h>
 
+class FaerieAnimationsDelegate;
+
 //
 // Класс главного окна
 //
@@ -12,11 +14,14 @@ class MainWidget
 public:
 
 	//
-	// Конструктор по умолчанию
+	// Конструктор
 	//
-	MainWidget();
+	explicit MainWidget(FaerieAnimationsDelegate* animations);
 
 private:
 
+	//
+	// Событие выхода
+	//
 	virtual void closeEvent(QCloseEvent* event);
 };

@@ -1,5 +1,8 @@
 #pragma once
 
+#include <string>
+#include <assert.h>
+
 class Bool {
 
 public:

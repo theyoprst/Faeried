@@ -23,8 +23,8 @@
 			>
 			<Tool
 				Name="VCNMakeTool"
-				BuildCommandLine="nmake debug"
-				ReBuildCommandLine="nmake debug"
+				BuildCommandLine="qmake &amp;&amp; nmake debug"
+				ReBuildCommandLine="qmake &amp;&amp; nmake debug"
 				CleanCommandLine="nmake debug-clean"
 				Output="Faeried.exe"
 				PreprocessorDefinitions="WIN32;_DEBUG"
@@ -83,6 +83,10 @@
 			Name="XML files"
 			>
 			<File
+				RelativePath="..\bin\animations.xml"
+				>
+			</File>
+			<File
 				RelativePath="..\bin\bones.xml"
 				>
 			</File>
@@ -96,6 +100,30 @@
 			</File>
 			<File
 				RelativePath=".\AngleSliderWidget.h"
+				>
+			</File>
+			<File
+				RelativePath=".\AnimationsComboBox.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\AnimationsComboBox.h"
+				>
+			</File>
+			<File
+				RelativePath=".\FramesListWidget.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\FramesListWidget.h"
+				>
+			</File>
+			<File
+				RelativePath=".\LeftPanelWidget.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\LeftPanelWidget.h"
 				>
 			</File>
 			<File
@@ -122,20 +150,20 @@
 				RelativePath=".\PreviewFaerieWidget.h"
 				>
 			</File>
-			<File
-				RelativePath=".\SettingsWidget.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\SettingsWidget.h"
-				>
-			</File>
 		</Filter>
 		<Filter
 			Name="Utils"
 			>
 			<File
+				RelativePath=".\Float.h"
+				>
+			</File>
+			<File
 				RelativePath=".\FPoint.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Int.h"
 				>
 			</File>
 			<File
@@ -144,6 +172,14 @@
 			</File>
 			<File
 				RelativePath=".\Point.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Spline.h"
+				>
+			</File>
+			<File
+				RelativePath=".\types.h"
 				>
 			</File>
 			<File
@@ -180,6 +216,42 @@
 			</File>
 			<File
 				RelativePath=".\Faerie.h"
+				>
+			</File>
+			<File
+				RelativePath=".\FaerieAnimaionsDelegate.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\FaerieAnimation.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\FaerieAnimation.h"
+				>
+			</File>
+			<File
+				RelativePath=".\FaerieAnimationsCollection.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\FaerieAnimationsCollection.h"
+				>
+			</File>
+			<File
+				RelativePath=".\FaerieAnimationsDelegate.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\FaerieAnimationsDelegate.h"
+				>
+			</File>
+			<File
+				RelativePath=".\FaerieFrame.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\FaerieFrame.h"
 				>
 			</File>
 		</Filter>

@@ -1,0 +1,164 @@
+#include "LeftPanelWidget.h"
+
+#include <QtGui/QCloseEvent>
+#include <QtGui/QDoubleSpinBox>
+#include <QtGui/QInputDialog>
+#include <QtGui/QGridLayout>
+#include <QtGui/QGroupBox>
+#include <QtGui/QLabel>
+#include <QtGui/QMessageBox>
+#include <QtGui/QPushButton>
+
+#include "AnimationsComboBox.h"
+#include "FaerieAnimationsDelegate.h"
+#include "FramesListWidget.h"
+#include "PreviewFaerieWidget.h"
+
+LeftPanelWidget::LeftPanelWidget(QWidget* parent, FaerieAnimationsDelegate* animations)
+	: QWidget(parent)
+	, _animations(animations)
+{
+	// всех детей помещаем в вертикальный лэйаут
+	QVBoxLayout* verticalLayout = new QVBoxLayout();
+	verticalLayout->addLayout(CreateAnimationsLayout());
+	verticalLayout->addLayout(CreateTimeLayout());
+	verticalLayout->addLayout(CreateFramesListLayout());
+	verticalLayout->addWidget(CreateFrameSettings(), 0, Qt::AlignLeft);
+	verticalLayout->addLayout(CreateButtonsLayout());
+	setLayout(verticalLayout);
+}
+
+QLayout* LeftPanelWidget::CreateAnimationsLayout() {
+	AnimationsComboBox* animationsCombo = new AnimationsComboBox(this);
+	connect(_animations, SIGNAL(SetAnimationsList(const QStringList&)), animationsCombo, SLOT(SetAnimationsList(const QStringList&)));
+	animationsCombo->show();
+
+	QPushButton* newAnimationButton = new QPushButton(tr("Новая"));
+	newAnimationButton->setIcon(style()->standardIcon(QStyle::SP_FileDialogNewFolder));
+	connect(newAnimationButton, SIGNAL(clicked()), this, SLOT(AskNewAnimationName()));
+	
+	QPushButton* deleteAnimationButton = new QPushButton(tr("Удалить"));
+	deleteAnimationButton->setIcon(style()->standardIcon(QStyle::SP_TrashIcon));
+	connect(deleteAnimationButton, SIGNAL(clicked()), this, SLOT(ConfirmDeleteAnimation()));
+	connect(_animations, SIGNAL(AnimationIsSelected(bool)), this, SLOT(setEnabled(bool)));
+
+	QHBoxLayout* line = new QHBoxLayout();
+	line->addWidget(animationsCombo);
+	line->addWidget(newAnimationButton);
+	line->addWidget(deleteAnimationButton);
+
+	return line;
+}
+
+QLayout* LeftPanelWidget::CreateTimeLayout() {
+	QLabel* labelTime = new QLabel(tr("Продолжительность:"));
+	QDoubleSpinBox* spinBox = new QDoubleSpinBox();
+	spinBox->setMinimum(0.1);
+	spinBox->setMaximum(50.0);
+	connect(_animations, SIGNAL(AnimationIsSelected(bool)), spinBox, SLOT(setEnabled(bool)));
+	connect(_animations, SIGNAL(InitAnimationTime(float)), spinBox, SLOT(setValue(double)));
+	connect(spinBox, SIGNAL(valueChanged(double)), _animations, SLOT(SetAnimationTime(float)));
+
+	QHBoxLayout* line = new QHBoxLayout();
+	line->addWidget(labelTime);
+	line->addWidget(spinBox);
+	return line;
+}
+
+QLayout* LeftPanelWidget::CreateFramesListLayout() {
+	FramesListWidget* frames = new FramesListWidget(0);
+	connect(frames, SIGNAL(currentRowChanged(int)), _animations, SLOT(SetCurrentFrameNumber(int)));
+	connect(_animations, SIGNAL(SetFramesList(const QStringList&)), frames, SLOT(SetFramesList(const QStringList&)));
+
+	// справа выстраиваем кнопочки в столбик
+	QPushButton* buttonClone = new QPushButton(tr("Дублировать"));
+	buttonClone->setIcon(style()->standardIcon(QStyle::SP_ArrowDown));
+
+	QPushButton* buttonRemove = new QPushButton(tr("Удалить"));
+	buttonRemove->setIcon(style()->standardIcon(QStyle::SP_DialogDiscardButton));
+
+	QVBoxLayout* column = new QVBoxLayout;
+	column->addWidget(buttonClone);
+	column->addWidget(buttonRemove);
+	column->addStretch(1);
+
+	QHBoxLayout* line = new QHBoxLayout;
+	line->addWidget(frames);
+	line->addLayout(column);
+	return line;
+}
+
+QLayout* LeftPanelWidget::CreateButtonsLayout() {
+	QPushButton* saveAll = new QPushButton(tr("Сохранить всё"));
+	saveAll->setIcon(style()->standardIcon(QStyle::SP_DialogSaveButton));
+	connect(saveAll, SIGNAL(clicked()), _animations, SLOT(SaveAll()));
+
+	QPushButton* discardAll = new QPushButton(tr("Отменить всё"));
+	discardAll->setIcon(style()->standardIcon(QStyle::SP_DialogCancelButton));
+	connect(discardAll, SIGNAL(clicked()), _animations, SLOT(DiscardAll()));
+
+	QHBoxLayout* line = new QHBoxLayout;
+	line->addStretch(1);
+	line->addWidget(saveAll);
+	line->addWidget(discardAll);
+	line->addStretch(1);
+	return line;
+}
+
+QWidget* LeftPanelWidget::CreateFrameSettings() {
+	QGroupBox* groupBox = new QGroupBox(tr("Настройки кадра"));
+	QGridLayout* grid = new QGridLayout;
+	grid->addWidget(new QLabel(tr("Угол поясницы")), 0, 0);
+	grid->addWidget(new QLabel(tr("Угол туловища")), 1, 0);
+	grid->addWidget(new QLabel(tr("Угол головы")), 2, 0);
+	grid->addWidget(new QLabel(tr("Угол левого предплечья")), 3, 0);
+	grid->addWidget(new QLabel(tr("Угол левой руки")), 4, 0);
+	grid->addWidget(new QLabel(tr("Угол правого предплечья")), 5, 0);
+	grid->addWidget(new QLabel(tr("Угол правой руки")), 6, 0);
+	grid->addWidget(new QLabel(tr("Угол левого бедра")), 7, 0);
+	grid->addWidget(new QLabel(tr("Угол левой голени")), 8, 0);
+	grid->addWidget(new QLabel(tr("Угол правого бедра")), 9, 0);
+	grid->addWidget(new QLabel(tr("Угол правой голени")), 10, 0);
+	grid->addWidget(new QLabel(tr("Смещение по x")), 11, 0);
+	grid->addWidget(new QLabel(tr("Смещение по y")), 12, 0);
+	grid->addWidget(new QSpinBox, 0, 1);
+	grid->addWidget(new QSpinBox, 1, 1);
+	grid->addWidget(new QSpinBox, 2, 1);
+	grid->addWidget(new QSpinBox, 3, 1);
+	grid->addWidget(new QSpinBox, 4, 1);
+	grid->addWidget(new QSpinBox, 5, 1);
+	grid->addWidget(new QSpinBox, 6, 1);
+	grid->addWidget(new QSpinBox, 7, 1);
+	grid->addWidget(new QSpinBox, 8, 1);
+	grid->addWidget(new QSpinBox, 9, 1);
+	grid->addWidget(new QSpinBox, 10, 1);
+	grid->addWidget(new QSpinBox, 11, 1);
+	grid->addWidget(new QSpinBox, 12, 1);
+	groupBox->setLayout(grid);
+	grid->setVerticalSpacing(1);
+	return groupBox;
+}
+
+void LeftPanelWidget::AskNewAnimationName() {
+	bool okPressed = false;
+	QString animationName = QInputDialog::getText(this, tr("Имя"), tr("Введите имя анимации"), QLineEdit::Normal, tr(""), &okPressed);
+	if (okPressed && !_animations->HasAnimation(animationName.toStdString())) {
+		_animations->AddAnimation(animationName.toStdString());
+	}
+}
+
+void LeftPanelWidget::ConfirmDeleteAnimation() {
+	QMessageBox deleteConfirm(this);
+	deleteConfirm.setText(tr("Вы действительно хотите удалить эту анимацию?"));
+	deleteConfirm.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+	deleteConfirm.setDefaultButton(QMessageBox::Yes);
+	deleteConfirm.setIcon(QMessageBox::Question);
+	int result = deleteConfirm.exec();
+	if (result == QMessageBox::Yes) {
+		_animations->DeleteCurrentAnimation();
+	} else if (result == QMessageBox::No) {
+		// ничего не делаем
+	} else {
+		assert(false);
+	}
+}
