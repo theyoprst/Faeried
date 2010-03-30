@@ -28,7 +28,7 @@ public slots:
 	//
 	// Установить имя текущей анимации
 	//
-	void SetCurrentAnimation(std::string animationName);
+	void SetCurrentAnimationName(std::string animationName);
 
 private:
 

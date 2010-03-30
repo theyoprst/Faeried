@@ -1,5 +1,11 @@
 <animations>
-	<animation name="1" time="5.000000">
+	<animation name="1" time="1.000000">
+		<keyFrame>
+			<bones/>
+			<shift x="0" y="0"/>
+		</keyFrame>
+	</animation>
+	<animation name="2" time="2.000000">
 		<keyFrame>
 			<bones/>
 			<shift x="0" y="0"/>

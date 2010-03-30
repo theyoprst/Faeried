@@ -14,7 +14,7 @@ void AnimationsComboBox::SetAnimationsList(const QStringList& texts) {
 	addItems(texts);
 }
 
-void AnimationsComboBox::SetCurrentAnimation(std::string animationName) {
+void AnimationsComboBox::SetCurrentAnimationName(std::string animationName) {
 	int index = _animationNames.indexOf(QString(animationName.c_str()));
 	assert(index != -1);
 	setCurrentIndex(index + 1);

@@ -33,18 +33,19 @@ MainWidget::MainWidget(FaerieAnimationsDelegate* animations)
 }
 
 void MainWidget::closeEvent(QCloseEvent* event) {
-	QMessageBox exitConfirm(this);
-	//exitConfirm.setInformativeText(tr("Вы действительно хотите выйти?"));
-	exitConfirm.setText(tr("Вы действительно хотите выйти?"));
-	exitConfirm.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
-	exitConfirm.setDefaultButton(QMessageBox::Yes);
-	exitConfirm.setIcon(QMessageBox::Question);
-	int result = exitConfirm.exec();
-	if (result == QMessageBox::Yes) {
-		event->accept();
-	} else if (result == QMessageBox::No) {
-		event->ignore();
-	} else {
-		assert(false);
-	}
+	//QMessageBox exitConfirm(this);
+	////exitConfirm.setInformativeText(tr("Вы действительно хотите выйти?"));
+	//exitConfirm.setText(tr("Вы действительно хотите выйти?"));
+	//exitConfirm.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+	//exitConfirm.setDefaultButton(QMessageBox::Yes);
+	//exitConfirm.setIcon(QMessageBox::Question);
+	//int result = exitConfirm.exec();
+	//if (result == QMessageBox::Yes) {
+	//	event->accept();
+	//} else if (result == QMessageBox::No) {
+	//	event->ignore();
+	//} else {
+	//	assert(false);
+	//}
+	event->accept();
 }

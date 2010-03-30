@@ -31,7 +31,8 @@ LeftPanelWidget::LeftPanelWidget(QWidget* parent, FaerieAnimationsDelegate* anim
 QLayout* LeftPanelWidget::CreateAnimationsLayout() {
 	AnimationsComboBox* animationsCombo = new AnimationsComboBox(this);
 	connect(_animations, SIGNAL(SetAnimationsList(const QStringList&)), animationsCombo, SLOT(SetAnimationsList(const QStringList&)));
-	connect(_animations, SIGNAL(SetCurrentAnimation(std::string)), animationsCombo, SLOT(SetCurrentAnimation(std::string)));
+	connect(_animations, SIGNAL(SetCurrentAnimationName(std::string)), animationsCombo, SLOT(SetCurrentAnimationName(std::string)));
+	connect(animationsCombo, SIGNAL(currentIndexChanged(const QString&)), _animations, SLOT(SetCurrentAnimation(const QString&)));
 	animationsCombo->show();
 
 	QPushButton* newAnimationButton = new QPushButton(tr("Новая"));
@@ -57,8 +58,8 @@ QLayout* LeftPanelWidget::CreateTimeLayout() {
 	spinBox->setMinimum(0.1);
 	spinBox->setMaximum(50.0);
 	connect(_animations, SIGNAL(AnimationIsSelected(bool)), spinBox, SLOT(setEnabled(bool)));
-	connect(_animations, SIGNAL(InitAnimationTime(float)), spinBox, SLOT(setValue(double)));
-	connect(spinBox, SIGNAL(valueChanged(double)), _animations, SLOT(SetAnimationTime(float)));
+	connect(_animations, SIGNAL(InitAnimationTime(double)), spinBox, SLOT(setValue(double)));
+	connect(spinBox, SIGNAL(valueChanged(double)), _animations, SLOT(SetAnimationTime(double)));
 
 	QHBoxLayout* line = new QHBoxLayout();
 	line->addWidget(labelTime);
@@ -106,8 +107,6 @@ QLayout* LeftPanelWidget::CreateButtonsLayout() {
 	line->addWidget(saveAll);
 	line->addWidget(discardAll);
 	line->addStretch(1);
-
-	connect(_animations, SIGNAL(AnimationIsSelected(bool)), line, SLOT(setEnabled(bool)));
 
 	return line;
 }

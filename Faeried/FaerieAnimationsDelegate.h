@@ -57,19 +57,19 @@ signals:
 	//
 	// Событие инициализировать время анимацииы
 	//
-	void InitAnimationTime(float time);
+	void InitAnimationTime(double time);
 
 	//
 	// Установить идентификатор текущей анимации
 	//
-	void SetCurrentAnimation(std::string);
+	void SetCurrentAnimationName(std::string);
 
 public slots:
 
 	//
 	// Установить время анимации
 	//
-	void SetAnimationTime(float time);
+	void SetAnimationTime(double time);
 
 	//
 	// Сохранить все анимации
@@ -86,16 +86,26 @@ public slots:
 	//
 	void SetCurrentFrameNumber(int number);
 
-private:
+	//
+	// Установить текущую анимацию
+	//
+	void SetCurrentAnimation(const QString& name);
 
-	//
-	// Вернуть список анимаций
-	//
-	QStringList GetAnimationsList();
+private:
 
 	FaerieAnimationsCollection* _collection;
 		// коллекция анимаций
 
 	FaerieAnimation* _currentAnimation;
 		// выбранная анимация
+
+	//
+	// Вернуть список анимаций
+	//
+	QStringList GetAnimationsList();
+
+	//
+	// Инициализировать вид текущей анимации
+	//
+	void InitCurrentAnimationView();
 };

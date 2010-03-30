@@ -19,18 +19,20 @@ void FaerieAnimationsDelegate::AddAnimation(std::string name) {
 	_currentAnimation = new FaerieAnimation(name);
 	_collection->AddAnimation(new FaerieAnimation(name));
 	emit SetAnimationsList(GetAnimationsList());
-	emit SetCurrentAnimation(name);
+	emit SetCurrentAnimationName(name);
+	emit AnimationIsSelected(true);
+	InitCurrentAnimationView();
 }
 
 void FaerieAnimationsDelegate::DeleteCurrentAnimation() {
 	assert(_currentAnimation != NULL);
 	_collection->DeleteAnimation(_currentAnimation->GetName());
-	// TODO:
+	emit SetAnimationsList(GetAnimationsList());
+	emit AnimationIsSelected(false);
 }
 
 void FaerieAnimationsDelegate::InitView() {
 	emit SetAnimationsList(GetAnimationsList());
-	emit AnimationIsSelected(false);
 }
 
 QStringList FaerieAnimationsDelegate::GetAnimationsList() {
@@ -42,9 +44,9 @@ QStringList FaerieAnimationsDelegate::GetAnimationsList() {
 	return animationsList;
 }
 
-void FaerieAnimationsDelegate::SetAnimationTime(float time) {
+void FaerieAnimationsDelegate::SetAnimationTime(double time) {
 	assert(_currentAnimation != NULL);
-	_currentAnimation->SetTime(time);
+	_currentAnimation->SetTime(float(time));
 }
 
 void FaerieAnimationsDelegate::SaveAll() {
@@ -56,4 +58,19 @@ void FaerieAnimationsDelegate::DiscardAll() {
 }
 
 void FaerieAnimationsDelegate::SetCurrentFrameNumber(int frameNumber) {
+}
+
+void FaerieAnimationsDelegate::SetCurrentAnimation(const QString& name) {
+	if (_collection->HasAnimation(name.toStdString())) {
+		_currentAnimation = _collection->GetAnimation(name.toStdString());
+		InitCurrentAnimationView();
+	} else {
+		_currentAnimation = NULL;
+	}
+	emit AnimationIsSelected(_currentAnimation != NULL);
+}
+
+void FaerieAnimationsDelegate::InitCurrentAnimationView() {
+	assert(_currentAnimation != NULL);
+	emit InitAnimationTime(double(_currentAnimation->GetTime()));
 }
