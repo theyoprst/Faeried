@@ -57,9 +57,6 @@ void FaerieAnimationsDelegate::DiscardAll() {
 	InitView();
 }
 
-void FaerieAnimationsDelegate::SetCurrentFrameNumber(int frameNumber) {
-}
-
 void FaerieAnimationsDelegate::SetCurrentAnimation(const QString& name) {
 	if (_collection->HasAnimation(name.toStdString())) {
 		_currentAnimation = _collection->GetAnimation(name.toStdString());
@@ -73,4 +70,39 @@ void FaerieAnimationsDelegate::SetCurrentAnimation(const QString& name) {
 void FaerieAnimationsDelegate::InitCurrentAnimationView() {
 	assert(_currentAnimation != NULL);
 	emit InitAnimationTime(double(_currentAnimation->GetTime()));
+	emit SetFramesList(GetFramesList());
+	emit SetCurrentFrame(0);
+	_currentFrameNumber = 0;
+}
+
+QStringList FaerieAnimationsDelegate::GetFramesList() {
+	QStringList frames;
+	for (int i = 0; i < _currentAnimation->GetFramesNumber(); ++i) {
+		frames.push_back(tr("Frame") + Int::ToQString(i));
+	}
+	return frames;
+}
+
+void FaerieAnimationsDelegate::CloneCurrentFrame() {
+	assert(_currentAnimation != NULL);
+	_currentAnimation->CloneFrame(_currentFrameNumber);
+	int currentFrameNumber = _currentFrameNumber + 1;
+	emit SetFramesList(GetFramesList());
+	emit SetCurrentFrame(currentFrameNumber);
+}
+
+void FaerieAnimationsDelegate::SetCurrentFrameNumber(int frameNumber) {
+	_currentFrameNumber = frameNumber;
+}
+
+void FaerieAnimationsDelegate::DeleteCurrentFrame() {
+	assert(_currentAnimation != NULL);
+	_currentAnimation->DeleteFrame(_currentFrameNumber);
+	int currentFrameNumber = _currentFrameNumber;
+	QStringList frames = GetFramesList();
+	if (currentFrameNumber >= frames.size()) {
+		currentFrameNumber = frames.size() - 1;
+	}
+	emit SetFramesList(frames);
+	emit SetCurrentFrame(currentFrameNumber);
 }

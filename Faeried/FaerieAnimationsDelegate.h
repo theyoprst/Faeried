@@ -50,6 +50,11 @@ signals:
 	void SetAnimationsList(const QStringList& list);
 
 	//
+	// Событие установить список кадров
+	//
+	void SetFramesList(const QStringList& list);
+
+	//
 	// Событие выбрали анимацию / анимация не выбрана
 	//
 	void AnimationIsSelected(bool isAnimationSelected);
@@ -63,6 +68,11 @@ signals:
 	// Установить идентификатор текущей анимации
 	//
 	void SetCurrentAnimationName(std::string);
+
+	//
+	// Установить номер текущего кадра
+	//
+	void SetCurrentFrame(int);
 
 public slots:
 
@@ -91,6 +101,16 @@ public slots:
 	//
 	void SetCurrentAnimation(const QString& name);
 
+	//
+	// Клонировать текущий кадр
+	//
+	void CloneCurrentFrame();
+
+	//
+	// Удалить текущий кадр
+	//
+	void DeleteCurrentFrame();
+
 private:
 
 	FaerieAnimationsCollection* _collection;
@@ -98,6 +118,9 @@ private:
 
 	FaerieAnimation* _currentAnimation;
 		// выбранная анимация
+
+	int _currentFrameNumber;
+		// номер текущего кадра
 
 	//
 	// Вернуть список анимаций
@@ -108,4 +131,9 @@ private:
 	// Инициализировать вид текущей анимации
 	//
 	void InitCurrentAnimationView();
+
+	//
+	// Вернуть список кадров
+	//
+	QStringList GetFramesList();
 };

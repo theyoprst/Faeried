@@ -1,6 +1,7 @@
 #pragma once
 
 #include <assert.h>
+#include <QtCore/QString>
 
 //
 // Всякие операции над целыми числами
@@ -37,6 +38,13 @@ public:
 		char buf[32];
 		sprintf_s(buf, "%d", n);
 		return buf;
+	}
+
+	//
+	// Перевод числа в QString
+	//
+	static QString ToQString(int n) {
+		return QString(ToString(n).c_str());
 	}
 
 };

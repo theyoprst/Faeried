@@ -36,8 +36,6 @@ void FaerieAnimation::FillXml(Xml::Document* document, Xml::Node* element) {
 	}
 }
 
-
-
 void FaerieAnimation::AddFrameToSpline(size_t frameNumber, const FaerieFrame& frame) {
 	float time = static_cast<float>(frameNumber) / _keyFrames.size();
 	const FaerieFrame::BonesDegrees& degrees = frame.GetBonesDegrees();
@@ -80,4 +78,24 @@ float FaerieAnimation::GetTime() {
 void FaerieAnimation::SetTime(float time) {
 	assert(time > 0.0f);
 	_time = time;
+}
+
+int FaerieAnimation::GetFramesNumber() {
+	return static_cast<int>(_keyFrames.size());
+}
+
+void FaerieAnimation::CloneFrame(int frameNumber) {
+	assert(0 <= frameNumber && frameNumber < static_cast<int>(_keyFrames.size()));
+	KeyFrames::iterator frame = _keyFrames.begin();
+	std::advance(frame, frameNumber);
+	KeyFrames::iterator frameNext = frame;
+	std::advance(frameNext, 1);
+	_keyFrames.insert(frameNext, *frame);
+}
+
+void FaerieAnimation::DeleteFrame(int frameNumber) {
+	assert(0 <= frameNumber && frameNumber < static_cast<int>(_keyFrames.size()));
+	KeyFrames::iterator frame = _keyFrames.begin();
+	std::advance(frame, frameNumber);
+	_keyFrames.erase(frame);
 }

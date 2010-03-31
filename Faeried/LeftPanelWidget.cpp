@@ -22,7 +22,7 @@ LeftPanelWidget::LeftPanelWidget(QWidget* parent, FaerieAnimationsDelegate* anim
 	QVBoxLayout* verticalLayout = new QVBoxLayout();
 	verticalLayout->addLayout(CreateAnimationsLayout());
 	verticalLayout->addLayout(CreateTimeLayout());
-	verticalLayout->addLayout(CreateFramesListLayout());
+	verticalLayout->addWidget(CreateFramesWidget(), 0, Qt::AlignLeft);
 	verticalLayout->addWidget(CreateFrameSettings(), 0, Qt::AlignLeft);
 	verticalLayout->addLayout(CreateButtonsLayout());
 	setLayout(verticalLayout);
@@ -67,20 +67,24 @@ QLayout* LeftPanelWidget::CreateTimeLayout() {
 	return line;
 }
 
-QLayout* LeftPanelWidget::CreateFramesListLayout() {
+QWidget* LeftPanelWidget::CreateFramesWidget() {
 	FramesListWidget* frames = new FramesListWidget(0);
 	connect(frames, SIGNAL(currentRowChanged(int)), _animations, SLOT(SetCurrentFrameNumber(int)));
 	connect(_animations, SIGNAL(SetFramesList(const QStringList&)), frames, SLOT(SetFramesList(const QStringList&)));
 	connect(_animations, SIGNAL(AnimationIsSelected(bool)), frames, SLOT(setEnabled(bool)));
+	connect(_animations, SIGNAL(SetCurrentFrame(int)), frames, SLOT(SetCurrentRow(int)));
 
 	// справа выстраиваем кнопочки в столбик
-	QPushButton* buttonClone = new QPushButton(tr("Дублировать"));
+	QPushButton* buttonClone = new QPushButton(tr("Дублировать кадр"));
 	buttonClone->setIcon(style()->standardIcon(QStyle::SP_ArrowDown));
 	connect(_animations, SIGNAL(AnimationIsSelected(bool)), buttonClone, SLOT(setEnabled(bool)));
+	connect(buttonClone, SIGNAL(clicked()), _animations, SLOT(CloneCurrentFrame()));
 
-	QPushButton* buttonRemove = new QPushButton(tr("Удалить"));
+	QPushButton* buttonRemove = new QPushButton(tr("Удалить кадр"));
 	buttonRemove->setIcon(style()->standardIcon(QStyle::SP_DialogDiscardButton));
-	connect(_animations, SIGNAL(AnimationIsSelected(bool)), buttonRemove, SLOT(setEnabled(bool)));
+	//connect(_animations, SIGNAL(AnimationIsSelected(bool)), buttonRemove, SLOT(setEnabled(bool)));
+	connect(buttonRemove, SIGNAL(clicked()), _animations, SLOT(DeleteCurrentFrame()));
+	connect(frames, SIGNAL(MoreThanOneFrame(bool)), buttonRemove, SLOT(setEnabled(bool)));
 
 	QVBoxLayout* column = new QVBoxLayout;
 	column->addWidget(buttonClone);
@@ -90,7 +94,11 @@ QLayout* LeftPanelWidget::CreateFramesListLayout() {
 	QHBoxLayout* line = new QHBoxLayout;
 	line->addWidget(frames);
 	line->addLayout(column);
-	return line;
+
+	QGroupBox* groupBox = new QGroupBox(tr("Кадры анимации"));
+	groupBox->setLayout(line);
+
+	return groupBox;
 }
 
 QLayout* LeftPanelWidget::CreateButtonsLayout() {

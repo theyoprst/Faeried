@@ -25,6 +25,17 @@ FaerieFrame::FaerieFrame(const BonesDegrees& bonesDegrees, FPoint shift)
 
 FaerieFrame::FaerieFrame()
 {
+	_bonesDegrees["pelvis"] = 0;
+	_bonesDegrees["leftThigh"] = 0;
+	_bonesDegrees["leftLeg"] = 0;
+	_bonesDegrees["rightThigh"] = 0;
+	_bonesDegrees["rightLeg"] = 0;
+	_bonesDegrees["body"] = 0;
+	_bonesDegrees["head"] = 0;
+	_bonesDegrees["leftArm"] = 0;
+	_bonesDegrees["leftForearm"] = 0;
+	_bonesDegrees["rightArm"] = 0;
+	_bonesDegrees["rightForearm"] = 0;
 }
 
 void FaerieFrame::FillXml(Xml::Document* document, Xml::Node* element) {

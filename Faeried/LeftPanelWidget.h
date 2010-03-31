@@ -41,7 +41,7 @@ private:
 	// Создать виджеты управления списком кадров и
 	// вернуть указатель на них
 	//
-	QLayout* CreateFramesListLayout();
+	QWidget* CreateFramesWidget();
 
 	//
 	// Создать кнопки сохранения / отмены всего
@@ -66,4 +66,5 @@ private slots:
 	// Подтвердить удаление анимации
 	//
 	void ConfirmDeleteAnimation();
+
 };

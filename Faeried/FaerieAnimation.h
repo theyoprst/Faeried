@@ -50,6 +50,21 @@ public:
 	//
 	void SetTime(float time);
 
+	//
+	// Вернуть количество кадров анимации
+	//
+	int GetFramesNumber();
+
+	//
+	// Клонировать кадр номер frameNumber
+	//
+	void CloneFrame(int frameNumber);
+
+	//
+	// Удалить кадр номер frameNumber
+	//
+	void DeleteFrame(int frameNumber);
+
 private:
 
 	typedef std::list<FaerieFrame> KeyFrames;

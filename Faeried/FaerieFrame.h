@@ -50,4 +50,5 @@ private:
 
 	FPoint _shift;
 		// смещение
+
 };

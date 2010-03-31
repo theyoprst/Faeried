@@ -9,6 +9,8 @@ class FramesListWidget
 	: public QListWidget
 {
 
+	Q_OBJECT
+
 public:
 	
 	//
@@ -21,6 +23,19 @@ public slots:
 	//
 	// Установить список кадров
 	//
-	void SetFramesList(const QStringList& framesList); 
+	void SetFramesList(const QStringList& framesList);
+
+	//
+	// Установить номер текущей строки
+	//
+	void SetCurrentRow(int rowNumber);
+
+signals:
+
+	//
+	// Сигнал того, что установлен более чем один кадр
+	//
+	void MoreThanOneFrame(bool);
+
 };
 
