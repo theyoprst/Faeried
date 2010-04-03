@@ -55,3 +55,12 @@ const FaerieFrame::BonesDegrees& FaerieFrame::GetBonesDegrees() const {
 FPoint FaerieFrame::GetShift() const {
 	return _shift;
 }
+
+void FaerieFrame::SetBone(std::string boneName, int angleInDegrees) {
+	assert(_bonesDegrees.find(boneName) != _bonesDegrees.end());
+	_bonesDegrees[boneName] = static_cast<float>(angleInDegrees);
+}
+
+void FaerieFrame::SetShift(FPoint shift) {
+	_shift = shift;
+}

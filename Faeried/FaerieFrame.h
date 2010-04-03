@@ -43,6 +43,16 @@ public:
 	//
 	FPoint GetShift() const;
 
+	//
+	// Установить угол наклона кости
+	//
+	void SetBone(std::string boneName, int angleInDegrees);
+
+	//
+	// Установить сдвиг
+	//
+	void SetShift(FPoint shift);
+
 private:
 
 	BonesDegrees _bonesDegrees;

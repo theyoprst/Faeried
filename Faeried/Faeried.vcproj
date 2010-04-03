@@ -111,6 +111,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\FrameEditorWidget.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\FrameEditorWidget.h"
+				>
+			</File>
+			<File
 				RelativePath=".\FramesListWidget.cpp"
 				>
 			</File>
@@ -195,10 +203,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Bone.h"
-				>
-			</File>
-			<File
 				RelativePath=".\BonesMap.cpp"
 				>
 			</File>
@@ -216,10 +220,6 @@
 			</File>
 			<File
 				RelativePath=".\Faerie.h"
-				>
-			</File>
-			<File
-				RelativePath=".\FaerieAnimaionsDelegate.cpp"
 				>
 			</File>
 			<File
@@ -252,6 +252,26 @@
 			</File>
 			<File
 				RelativePath=".\FaerieFrame.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Delegates"
+			>
+			<File
+				RelativePath=".\NoEditDelegate.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\NoEditDelegate.h"
+				>
+			</File>
+			<File
+				RelativePath=".\SpinBoxDelegate.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\SpinBoxDelegate.h"
 				>
 			</File>
 		</Filter>

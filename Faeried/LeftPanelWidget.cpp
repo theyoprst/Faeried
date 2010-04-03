@@ -11,6 +11,7 @@
 
 #include "AnimationsComboBox.h"
 #include "FaerieAnimationsDelegate.h"
+#include "FrameEditorWidget.h"
 #include "FramesListWidget.h"
 #include "PreviewFaerieWidget.h"
 
@@ -120,38 +121,9 @@ QLayout* LeftPanelWidget::CreateButtonsLayout() {
 }
 
 QWidget* LeftPanelWidget::CreateFrameSettings() {
-	QGroupBox* groupBox = new QGroupBox(tr("Ќастройки кадра"));
-	QGridLayout* grid = new QGridLayout;
-	grid->addWidget(new QLabel(tr("”гол по€сницы")), 0, 0);
-	grid->addWidget(new QLabel(tr("”гол туловища")), 1, 0);
-	grid->addWidget(new QLabel(tr("”гол головы")), 2, 0);
-	grid->addWidget(new QLabel(tr("”гол левого предплечь€")), 3, 0);
-	grid->addWidget(new QLabel(tr("”гол левой руки")), 4, 0);
-	grid->addWidget(new QLabel(tr("”гол правого предплечь€")), 5, 0);
-	grid->addWidget(new QLabel(tr("”гол правой руки")), 6, 0);
-	grid->addWidget(new QLabel(tr("”гол левого бедра")), 7, 0);
-	grid->addWidget(new QLabel(tr("”гол левой голени")), 8, 0);
-	grid->addWidget(new QLabel(tr("”гол правого бедра")), 9, 0);
-	grid->addWidget(new QLabel(tr("”гол правой голени")), 10, 0);
-	grid->addWidget(new QLabel(tr("—мещение по x")), 11, 0);
-	grid->addWidget(new QLabel(tr("—мещение по y")), 12, 0);
-	grid->addWidget(new QSpinBox, 0, 1);
-	grid->addWidget(new QSpinBox, 1, 1);
-	grid->addWidget(new QSpinBox, 2, 1);
-	grid->addWidget(new QSpinBox, 3, 1);
-	grid->addWidget(new QSpinBox, 4, 1);
-	grid->addWidget(new QSpinBox, 5, 1);
-	grid->addWidget(new QSpinBox, 6, 1);
-	grid->addWidget(new QSpinBox, 7, 1);
-	grid->addWidget(new QSpinBox, 8, 1);
-	grid->addWidget(new QSpinBox, 9, 1);
-	grid->addWidget(new QSpinBox, 10, 1);
-	grid->addWidget(new QSpinBox, 11, 1);
-	grid->addWidget(new QSpinBox, 12, 1);
-	groupBox->setLayout(grid);
-	connect(_animations, SIGNAL(AnimationIsSelected(bool)), groupBox, SLOT(setEnabled(bool)));
-	grid->setVerticalSpacing(1);
-	return groupBox;
+	FrameEditorWidget* frames = new FrameEditorWidget(this);
+	connect(_animations, SIGNAL(AnimationIsSelected(bool)), frames, SLOT(setEnabled(bool)));
+	return frames;
 }
 
 void LeftPanelWidget::AskNewAnimationName() {
