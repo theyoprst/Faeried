@@ -58,6 +58,9 @@ private:
 	static QTime _time;
 		// для привязки к реальному времени
 
+	FaerieAnimationsDelegate* _animations;
+		// делегат анимаций
+
 	//
 	// Callback-функция обновления окна
 	//

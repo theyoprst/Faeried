@@ -23,18 +23,34 @@ public:
 
 signals:
 	
-	void UserChangedFrame(FaerieFrame frame);
+	//
+	// —игнал, посылаемый как только изменили кадр
+	//
+	void GuiChangedFrame(FaerieFrame frame);
 
 private:
 
 	bool _isInit;
+		// находимс€ ли в инициализации
+		// (нужно чтобы не посылать сообщени€ об изменени€х)
 
 	QStandardItemModel* _model;
 
+	//
+	// —оздаем кадр на основе введенных данных
+	//
 	FaerieFrame CreateFrame();
 
 private slots:
 
+	//
+	// ќбработка сигнала "изменилась таблица"
+	//
 	void dataChanged(const QModelIndex& topLeft, const QModelIndex& bottomRight);
+
+	//
+	// ќбработка сигнала "фе€ изменила кадр"
+	//
+	void FaerieChandedFrame(FaerieFrame frame);
 
 };

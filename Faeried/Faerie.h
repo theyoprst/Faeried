@@ -1,17 +1,25 @@
 #pragma once
 
+#include <QtCore/QObject>
+
 #include "BonesMap.h"
 
 class hgeSprite;
 class HGE;
 class Bone;
 
+#include "FaerieFrame.h"
+#include "FPoint.h"
 #include "Point.h"
 
 //
 // Собственно фея
 //
-class Faerie {
+class Faerie
+	: public QObject
+{
+
+	Q_OBJECT
 
 public:
 	
@@ -61,14 +69,46 @@ private:
 	Bone* _draggingBone;
 		// перетаскиваемая кость
 
+	FPoint _shift;
+		// сдвиг
+
 	enum {
-		
-		STATE_WAITING,
-			// состояние ожидания
+
+		STATE_NOFRAME,
+			// нет никакого кадра, ничего не рисуем
+
+		STATE_SINGLE_FRAME,
+			// отрисовываем статический кадр и ждем кликов
 		
 		STATE_DRAGGING_BONE,
 			// юзер тащит кость мышью
 
 	} _state;
-		// текущее состояниеы
+		// текущее состояние
+
+public slots:
+	
+	//
+	// Слот "изменился кадр из гуи"
+	//
+	void GuiChangedFrame(FaerieFrame frame);
+
+	//
+	// Нужно ли показывать фею
+	//
+	void SlotShowFaerie(bool);
+
+signals:
+
+	//
+	// Сигнал "изменился кадр через фею"
+	//
+	void FaerieChangedFrameSignal(FaerieFrame frame);
+
+private:
+
+	//
+	// Создать фрейм из текущего положения костей
+	//
+	FaerieFrame CreateFrame();
 };

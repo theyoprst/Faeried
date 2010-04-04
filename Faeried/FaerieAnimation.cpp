@@ -99,3 +99,18 @@ void FaerieAnimation::DeleteFrame(int frameNumber) {
 	std::advance(frame, frameNumber);
 	_keyFrames.erase(frame);
 }
+
+FaerieFrame FaerieAnimation::GetKeyFrame(int frameNumber) {
+	assert(0 <= frameNumber && frameNumber < static_cast<int>(_keyFrames.size()));
+	KeyFrames::iterator frame = _keyFrames.begin();
+	std::advance(frame, frameNumber);
+	assert(frame != _keyFrames.end());
+	return *frame;
+}
+
+void FaerieAnimation::SetKeyFrame(int frameNumber, FaerieFrame frame) {
+	assert(0 <= frameNumber && frameNumber < static_cast<int>(_keyFrames.size()));
+	KeyFrames::iterator iFrame = _keyFrames.begin();
+	std::advance(iFrame, frameNumber);
+	*iFrame = frame;
+}

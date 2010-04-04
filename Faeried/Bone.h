@@ -49,24 +49,26 @@ public:
 	//
 	void FinishDragging();
 
-public slots:
-	
+	//
+	// ¬ернуть угол в градусах
+	//
+	float GetAngleInDegrees();
+
+	//
+	// ”становить позицию относительно родител€
+	// (актуально только дл€ корневой кости)
+	//
+	void SetInParentPos(FPoint pos);
+
+	//
+	// ¬ернуть позицию относительно родител€
+	//
+	FPoint GetInParentPos();
+
 	//
 	// ”становить угол поворота в градусах
 	//
-	void SetAngleInDegrees(int angleInDegrees);
-
-signals:
-
-	//
-	// —игнал изменени€ угла
-	//
-	void AngleInDegreesChanged(std::string _name, int newAngle);
-
-	//
-	// —игнал изменени€ положени€
-	//
-	void ShiftChanged(Point newShift);
+	void SetAngleInDegrees(float angleInDegrees);
 
 private:
 	
@@ -79,7 +81,7 @@ private:
 	hgeSprite* _sprite;
 		// спрайт (изображение) кости
 
-	Point _inParentPosition;
+	FPoint _inParentPosition;
 		// позици€ внутри родител€ (относительно левого верхнего угла родител€)
 
 	Point _rotationPoint;
@@ -132,4 +134,5 @@ private:
 		// не подсвечивать
 
 	void SetNotActiveRecursively();
+
 };

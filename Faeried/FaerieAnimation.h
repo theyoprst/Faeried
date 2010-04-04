@@ -65,6 +65,16 @@ public:
 	//
 	void DeleteFrame(int frameNumber);
 
+	//
+	// Вернуть ключевой кадр
+	//
+	FaerieFrame GetKeyFrame(int frameNumber);
+
+	//
+	// Установить ключевой кадр
+	//
+	void SetKeyFrame(int frameNumber, FaerieFrame frame);
+
 private:
 
 	typedef std::list<FaerieFrame> KeyFrames;

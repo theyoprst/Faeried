@@ -46,12 +46,22 @@ public:
 	//
 	// Установить угол наклона кости
 	//
-	void SetBone(std::string boneName, int angleInDegrees);
+	void SetBoneAngle(std::string boneName, int angleInDegrees);
 
 	//
 	// Установить сдвиг
 	//
 	void SetShift(FPoint shift);
+
+	//
+	// Вернуть угол наклона кости
+	//
+	float GetBoneAngle(std::string boneName);
+
+	//
+	// Вернуть сдвиг
+	//
+	FPoint GetShift();
 
 private:
 

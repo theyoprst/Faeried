@@ -6,6 +6,7 @@
 
 #include "Point.h"
 #include "Faerie.h"
+#include "FaerieAnimationsDelegate.h"
 
 HGE* PreviewFaerieWidget::_hge = NULL;
 Faerie* PreviewFaerieWidget::_faerie = NULL;
@@ -13,6 +14,7 @@ QTime PreviewFaerieWidget::_time = QTime::currentTime();
 
 PreviewFaerieWidget::PreviewFaerieWidget(QWidget* parent, FaerieAnimationsDelegate* animations)
 	: QWidget(parent, Qt::Widget)
+	, _animations(animations)
 {
 	assert(testAttribute(Qt::WA_PaintOnScreen) == false);
 	setAttribute(Qt::WA_PaintOnScreen, true);
@@ -35,7 +37,10 @@ void PreviewFaerieWidget::InitHGE() {
 	_hge->System_Initiate();
 	_hge->System_Start();
 	_faerie = new Faerie(_hge);
-	_timer.start(1); // 1000 fps max
+	connect(_animations, SIGNAL(GuiChangedFrameSignal(FaerieFrame)), _faerie, SLOT(GuiChangedFrame(FaerieFrame)));
+	connect(_faerie, SIGNAL(FaerieChangedFrameSignal(FaerieFrame)), _animations, SLOT(FaerieChangedFrame(FaerieFrame)));
+	connect(_animations, SIGNAL(AnimationIsSelected(bool)), _faerie, SLOT(SlotShowFaerie(bool)));
+	_timer.start(10); // 1000 fps max
 	connect(&_timer, SIGNAL(timeout()), this, SLOT(RenderFunc()));
 	_time = QTime::currentTime();
 }

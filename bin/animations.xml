@@ -1,23 +1,11 @@
 <animations>
-	<animation name="1" time="1.000000">
+	<animation name="1" time="5.000000">
 		<keyFrame>
-			<bones/>
-			<shift x="0" y="0"/>
-		</keyFrame>
-	</animation>
-	<animation name="2" time="2.000000">
-		<keyFrame>
-			<bones/>
-			<shift x="0" y="0"/>
-		</keyFrame>
-	</animation>
-	<animation name="3" time="5.000000">
-		<keyFrame>
-			<bones body="0" head="0" leftArm="0" leftForearm="0" leftLeg="0" leftThigh="0" pelvis="0" rightArm="0" rightForearm="0" rightLeg="0" rightThigh="0"/>
+			<bones body="29" head="0" leftArm="30" leftForearm="0" leftLeg="0" leftThigh="0" pelvis="0" rightArm="0" rightForearm="0" rightLeg="0" rightThigh="0"/>
 			<shift x="0" y="0"/>
 		</keyFrame>
 		<keyFrame>
-			<bones body="0" head="0" leftArm="0" leftForearm="0" leftLeg="0" leftThigh="0" pelvis="0" rightArm="0" rightForearm="0" rightLeg="0" rightThigh="0"/>
+			<bones body="-16" head="0" leftArm="-14" leftForearm="0" leftLeg="0" leftThigh="0" pelvis="0" rightArm="0" rightForearm="0" rightLeg="0" rightThigh="0"/>
 			<shift x="0" y="0"/>
 		</keyFrame>
 	</animation>

@@ -80,10 +80,9 @@ void Bone::Draw(FPoint parentLeftTopCorner, float parentAngle) {
 	}
 }
 
-void Bone::SetAngleInDegrees(int angleInDegrees) {
+void Bone::SetAngleInDegrees(float angleInDegrees) {
 	_angle = angleInDegrees * Math::PI / 180.0f;
 }
-
 
 void Bone::SetNotActiveRecursively() {
 	_state = STATE_NORMAL;
@@ -122,7 +121,7 @@ Bone* Bone::GetBoneUnderMouse(Point mouse, FPoint parentLeftTopCorner, float par
 					// Корневую кость не вращаем, а таскаем. Поэтому только запоминаем координаты мыши
 					_state = STATE_MOVING;
 					_dragMousePos = mouse;
-					_dragInParentPosition = _inParentPosition;
+					_dragInParentPosition = _inParentPosition.Round();
 				} else {
 					// Остальные кости вращаем, поэтому нам нужно запомнить чуть больше информации
 					_state = STATE_ROTATING;
@@ -156,7 +155,6 @@ void Bone::Drag(Point p) {
 	if (_state == STATE_MOVING) {
 		// перетаскиваем
 		_inParentPosition = _dragInParentPosition + FPoint(p - _dragMousePos).Scale(1 / _scale).Round();
-		emit ShiftChanged(_inParentPosition);
 	} else if (_state == STATE_ROTATING) {
 		// вращаем
 		FPoint dragRotatePoint2 = FPoint(p);
@@ -172,8 +170,6 @@ void Bone::Drag(Point p) {
 		while (_angle > +Math::PI) {
 			_angle -= Math::PI * 2;
 		}
-		int angleInDegrees = Math::Round(_angle / Math::PI * 180.0f);
-		emit AngleInDegreesChanged(_name, angleInDegrees);
 	} else {
 		assert(false);
 	}
@@ -185,4 +181,14 @@ void Bone::FinishDragging() {
 	_state = STATE_NORMAL;
 }
 
+float Bone::GetAngleInDegrees() {
+	return _angle * 180 / Math::PI;
+}
 
+void Bone::SetInParentPos(FPoint pos) {
+	_inParentPosition = pos;
+}
+
+FPoint Bone::GetInParentPos() {
+	return _inParentPosition;
+}

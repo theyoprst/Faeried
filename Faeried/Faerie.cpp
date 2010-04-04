@@ -7,7 +7,7 @@
 #include "Xml.h"
 
 Faerie::Faerie(HGE* hge)
-	: _state(STATE_WAITING)
+	: _state(STATE_NOFRAME)
 	, _draggingBone(NULL)
 {
 	Xml::ReadDocument doc("bones.xml");
@@ -18,10 +18,16 @@ Faerie::Faerie(HGE* hge)
 }
 
 void Faerie::Draw(int x, int y) {
+	if (_state == STATE_NOFRAME) {
+		return;
+	}
 	_rootBone->Draw(FPoint(x, y), 0.0f);
 }
 
 void Faerie::Update(float dt) {
+	if (_state == STATE_NOFRAME) {
+		return;
+	}
 }
 
 Bone* Faerie::GetBoneByName(std::string boneName) {
@@ -29,14 +35,21 @@ Bone* Faerie::GetBoneByName(std::string boneName) {
 }
 
 void Faerie::OnMouseMove(Point p) {
-	if (_state == STATE_WAITING) {
+	if (_state == STATE_NOFRAME) {
+		return;
+	}
+	if (_state == STATE_SINGLE_FRAME) {
 		_rootBone->GetBoneUnderMouse(p, FPoint(0, 0), 0.0f);
 	} else if (_state == STATE_DRAGGING_BONE) {
 		_draggingBone->Drag(p);
+		emit FaerieChangedFrameSignal(CreateFrame());
 	}
 }
 
 void Faerie::OnLeftMouseDown(Point p) {
+	if (_state == STATE_NOFRAME) {
+		return;
+	}
 	_draggingBone = _rootBone->GetBoneUnderMouse(p, FPoint(0, 0), 0.0f);
 	if (_draggingBone != NULL) {
 		_state = STATE_DRAGGING_BONE;
@@ -44,10 +57,43 @@ void Faerie::OnLeftMouseDown(Point p) {
 }
 
 void Faerie::OnLeftMouseUp(Point p) {
+	if (_state == STATE_NOFRAME) {
+		return;
+	}
 	if (_state == STATE_DRAGGING_BONE) {
 		_draggingBone->Drag(p);
+		emit FaerieChangedFrameSignal(CreateFrame());
 		_draggingBone->FinishDragging();
 		_draggingBone = NULL;
-		_state = STATE_WAITING;
+		_state = STATE_SINGLE_FRAME;
+	}
+}
+
+void Faerie::GuiChangedFrame(FaerieFrame frame) {
+	// передать в каждую кость угол, установить координаты
+	for (BonesMap::iterator i = _bonesMap.begin(); i != _bonesMap.end(); ++i) {
+		std::string boneName = i->first;
+		Bone* bone = i->second;
+		bone->SetAngleInDegrees(frame.GetBoneAngle(boneName));
+	}
+	_rootBone->SetInParentPos(frame.GetShift());
+}
+
+FaerieFrame Faerie::CreateFrame() {
+	FaerieFrame frame;
+	for (BonesMap::iterator i = _bonesMap.begin(); i != _bonesMap.end(); ++i) {
+		std::string boneName = i->first;
+		Bone* bone = i->second;
+		frame.SetBoneAngle(boneName, bone->GetAngleInDegrees());
+	}
+	frame.SetShift(_rootBone->GetInParentPos());
+	return frame;
+}
+
+void Faerie::SlotShowFaerie(bool doShow) {
+	if (doShow) {
+		_state = STATE_SINGLE_FRAME;
+	} else {
+		_state = STATE_NOFRAME;
 	}
 }

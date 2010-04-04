@@ -92,7 +92,12 @@ void FaerieAnimationsDelegate::CloneCurrentFrame() {
 }
 
 void FaerieAnimationsDelegate::SetCurrentFrameNumber(int frameNumber) {
+	assert(_currentAnimation != NULL);
 	_currentFrameNumber = frameNumber;
+	if (frameNumber != -1) {
+		emit GuiChangedFrameSignal(_currentAnimation->GetKeyFrame(_currentFrameNumber));
+		emit FaerieChangedFrameSignal(_currentAnimation->GetKeyFrame(_currentFrameNumber));
+	}
 }
 
 void FaerieAnimationsDelegate::DeleteCurrentFrame() {
@@ -105,4 +110,16 @@ void FaerieAnimationsDelegate::DeleteCurrentFrame() {
 	}
 	emit SetFramesList(frames);
 	emit SetCurrentFrame(currentFrameNumber);
+}
+
+void FaerieAnimationsDelegate::GuiChangedFrame(FaerieFrame frame) {
+	assert(_currentAnimation != NULL);
+	_currentAnimation->SetKeyFrame(_currentFrameNumber, frame);
+	emit GuiChangedFrameSignal(frame);
+}
+
+void FaerieAnimationsDelegate::FaerieChangedFrame(FaerieFrame frame) {
+	assert(_currentAnimation != NULL);
+	emit FaerieChangedFrameSignal(frame);
+	_currentAnimation->SetKeyFrame(_currentFrameNumber, frame);
 }

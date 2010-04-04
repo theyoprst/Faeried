@@ -203,6 +203,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\bone.h"
+				>
+			</File>
+			<File
 				RelativePath=".\BonesMap.cpp"
 				>
 			</File>

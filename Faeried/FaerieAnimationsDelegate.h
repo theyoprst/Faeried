@@ -2,6 +2,7 @@
 
 #include <QtCore/QObject>
 
+#include "FaerieFrame.h"
 class FaerieAnimation;
 class FaerieAnimationsCollection;
 
@@ -74,6 +75,16 @@ signals:
 	//
 	void SetCurrentFrame(int);
 
+	//
+	// Сигнал "кадр изменили через gui"
+	//
+	void GuiChangedFrameSignal(FaerieFrame frame);
+
+	//
+	// Сигнал "кадр изменили через фею"
+	//
+	void FaerieChangedFrameSignal(FaerieFrame frame);
+
 public slots:
 
 	//
@@ -110,6 +121,16 @@ public slots:
 	// Удалить текущий кадр
 	//
 	void DeleteCurrentFrame();
+
+	//
+	// Кадр изменили через Gui
+	//
+	void GuiChangedFrame(FaerieFrame frame);
+
+	//
+	// Кадр изменили через фею
+	//
+	void FaerieChangedFrame(FaerieFrame frame);
 
 private:
 

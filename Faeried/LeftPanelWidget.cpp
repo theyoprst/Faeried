@@ -121,9 +121,11 @@ QLayout* LeftPanelWidget::CreateButtonsLayout() {
 }
 
 QWidget* LeftPanelWidget::CreateFrameSettings() {
-	FrameEditorWidget* frames = new FrameEditorWidget(this);
-	connect(_animations, SIGNAL(AnimationIsSelected(bool)), frames, SLOT(setEnabled(bool)));
-	return frames;
+	FrameEditorWidget* frameEditor = new FrameEditorWidget(this);
+	connect(_animations, SIGNAL(AnimationIsSelected(bool)), frameEditor, SLOT(setEnabled(bool)));
+	connect(frameEditor, SIGNAL(GuiChangedFrame(FaerieFrame)), _animations, SLOT(GuiChangedFrame(FaerieFrame))); 
+	connect(_animations, SIGNAL(FaerieChangedFrameSignal(FaerieFrame)), frameEditor, SLOT(FaerieChandedFrame(FaerieFrame)));
+	return frameEditor;
 }
 
 void LeftPanelWidget::AskNewAnimationName() {

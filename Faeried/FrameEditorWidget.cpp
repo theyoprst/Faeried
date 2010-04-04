@@ -46,7 +46,8 @@ FrameEditorWidget::FrameEditorWidget(QWidget* parent)
 	_model->setItem(11, 0, new QStandardItem(tr("смещение по x")));
 	_model->setItem(12, 0, new QStandardItem(tr("смещение по y")));
 
-	connect(_model, SIGNAL(dataChanged(const QModelIndex&)), this, SLOT(dataChanged(const QModelIndex&)));
+	connect(_model, SIGNAL(dataChanged(const QModelIndex&, const QModelIndex&)),
+		this, SLOT(dataChanged(const QModelIndex&, const QModelIndex&)));
 
 	_isInit = false;
 }
@@ -56,25 +57,47 @@ void FrameEditorWidget::dataChanged(const QModelIndex& topLeft, const QModelInde
 		assert(topLeft.column() == bottomRight.column());
 		assert(topLeft.row() == bottomRight.row());
 		QModelIndex index = topLeft;
-		emit UserChangedFrame(CreateFrame());
+		emit GuiChangedFrame(CreateFrame());
 	}
 }
 
 FaerieFrame FrameEditorWidget::CreateFrame() {
 	FaerieFrame frame;
-	frame.SetBone("head", _model->data(_model->index(0, 1)).toInt());
-	frame.SetBone("body", _model->data(_model->index(1, 1)).toInt());
-	frame.SetBone("pelvis", _model->data(_model->index(2, 1)).toInt());
-	frame.SetBone("leftArm", _model->data(_model->index(3, 1)).toInt());
-	frame.SetBone("leftForearm", _model->data(_model->index(4, 1)).toInt());
-	frame.SetBone("rightArm", _model->data(_model->index(5, 1)).toInt());
-	frame.SetBone("rightForearm", _model->data(_model->index(6, 1)).toInt());
-	frame.SetBone("leftThigh", _model->data(_model->index(7, 1)).toInt());
-	frame.SetBone("leftLeg", _model->data(_model->index(8, 1)).toInt());
-	frame.SetBone("rightThigh", _model->data(_model->index(9, 1)).toInt());
-	frame.SetBone("rightLeg", _model->data(_model->index(10, 1)).toInt());
+	frame.SetBoneAngle("head", _model->data(_model->index(0, 1)).toFloat());
+	frame.SetBoneAngle("body", _model->data(_model->index(1, 1)).toFloat());
+	frame.SetBoneAngle("pelvis", _model->data(_model->index(2, 1)).toFloat());
+	frame.SetBoneAngle("leftArm", _model->data(_model->index(3, 1)).toFloat());
+	frame.SetBoneAngle("leftForearm", _model->data(_model->index(4, 1)).toFloat());
+	frame.SetBoneAngle("rightArm", _model->data(_model->index(5, 1)).toFloat());
+	frame.SetBoneAngle("rightForearm", _model->data(_model->index(6, 1)).toFloat());
+	frame.SetBoneAngle("leftThigh", _model->data(_model->index(7, 1)).toFloat());
+	frame.SetBoneAngle("leftLeg", _model->data(_model->index(8, 1)).toFloat());
+	frame.SetBoneAngle("rightThigh", _model->data(_model->index(9, 1)).toFloat());
+	frame.SetBoneAngle("rightLeg", _model->data(_model->index(10, 1)).toFloat());
 	int x = _model->data(_model->index(11, 1)).toInt();
 	int y = _model->data(_model->index(12, 1)).toInt();
 	frame.SetShift(FPoint(Point(x, y)));
 	return frame;
+}
+
+void FrameEditorWidget::FaerieChandedFrame(FaerieFrame frame) {
+	_isInit = false;
+	_model->setData(_model->index(0, 1), frame.GetBoneAngle("head"));
+	_model->setData(_model->index(1, 1), frame.GetBoneAngle("body"));
+	_model->setData(_model->index(2, 1), frame.GetBoneAngle("pelvis"));
+	_model->setData(_model->index(3, 1), frame.GetBoneAngle("leftArm"));
+	_model->setData(_model->index(4, 1), frame.GetBoneAngle("leftForearm"));
+	_model->setData(_model->index(5, 1), frame.GetBoneAngle("rightArm"));
+	_model->setData(_model->index(6, 1), frame.GetBoneAngle("rightForearm"));
+	_model->setData(_model->index(7, 1), frame.GetBoneAngle("leftThigh"));
+	_model->setData(_model->index(8, 1), frame.GetBoneAngle("leftLeg"));
+	_model->setData(_model->index(9, 1), frame.GetBoneAngle("rightThigh"));
+	_model->setData(_model->index(10, 1), frame.GetBoneAngle("rightLeg"));
+	_model->setData(_model->index(11, 1), Math::Round(frame.GetShift().x));
+	_model->setData(_model->index(12, 1), Math::Round(frame.GetShift().y));
+	update();
+	repaint();
+	updateGeometries();
+	// TODO: добить это место.. :)
+	_isInit = true;
 }

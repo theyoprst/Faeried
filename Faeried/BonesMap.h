@@ -9,6 +9,7 @@ class Bone;
 // Класс отображения имени кости в указатель на неё
 //
 class BonesMap
+	: public std::map<std::string, Bone*>
 {
 
 public:
@@ -23,10 +24,4 @@ public:
 	//
 	Bone* GetBone(std::string boneName);
 
-private:
-
-	typedef std::map<std::string, Bone*> Map;
-
-	Map _map;
-		// само отображение
 };
