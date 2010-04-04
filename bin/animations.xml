@@ -1,11 +1,19 @@
 <animations>
-	<animation name="1" time="5.000000">
+	<animation name="hello_world" time="1.000000">
 		<keyFrame>
-			<bones body="29" head="0" leftArm="30" leftForearm="0" leftLeg="0" leftThigh="0" pelvis="0" rightArm="0" rightForearm="0" rightLeg="0" rightThigh="0"/>
+			<bones body="1" head="0" leftArm="-75" leftForearm="-13" leftLeg="6" leftThigh="-4" pelvis="0" rightArm="-75" rightForearm="0" rightLeg="-4" rightThigh="3"/>
 			<shift x="0" y="0"/>
 		</keyFrame>
 		<keyFrame>
-			<bones body="-16" head="0" leftArm="-14" leftForearm="0" leftLeg="0" leftThigh="0" pelvis="0" rightArm="0" rightForearm="0" rightLeg="0" rightThigh="0"/>
+			<bones body="0" head="0" leftArm="-65" leftForearm="1" leftLeg="6" leftThigh="-4" pelvis="0" rightArm="-75" rightForearm="0" rightLeg="-4" rightThigh="3"/>
+			<shift x="0" y="0"/>
+		</keyFrame>
+		<keyFrame>
+			<bones body="-1" head="0" leftArm="-60" leftForearm="9" leftLeg="6" leftThigh="-4" pelvis="0" rightArm="-75" rightForearm="0" rightLeg="-4" rightThigh="3"/>
+			<shift x="0" y="0"/>
+		</keyFrame>
+		<keyFrame>
+			<bones body="0" head="0" leftArm="-65" leftForearm="1" leftLeg="6" leftThigh="-4" pelvis="0" rightArm="-75" rightForearm="0" rightLeg="-4" rightThigh="3"/>
 			<shift x="0" y="0"/>
 		</keyFrame>
 	</animation>

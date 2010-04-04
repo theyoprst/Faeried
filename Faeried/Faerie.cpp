@@ -4,6 +4,7 @@
 #include <hgesprite.h>
 
 #include "Bone.h"
+#include "FaerieAnimation.h"
 #include "Xml.h"
 
 Faerie::Faerie(HGE* hge)
@@ -28,6 +29,10 @@ void Faerie::Update(float dt) {
 	if (_state == STATE_NOFRAME) {
 		return;
 	}
+	if (_state == STATE_ANIMATION) {
+		_animationTimer += dt;
+		GuiChangedFrame(_animation->GetFrame(_animationTimer));
+	}
 }
 
 Bone* Faerie::GetBoneByName(std::string boneName) {
@@ -36,6 +41,9 @@ Bone* Faerie::GetBoneByName(std::string boneName) {
 
 void Faerie::OnMouseMove(Point p) {
 	if (_state == STATE_NOFRAME) {
+		return;
+	}
+	if (_state == STATE_ANIMATION) {
 		return;
 	}
 	if (_state == STATE_SINGLE_FRAME) {
@@ -50,6 +58,9 @@ void Faerie::OnLeftMouseDown(Point p) {
 	if (_state == STATE_NOFRAME) {
 		return;
 	}
+	if (_state == STATE_ANIMATION) {
+		return;
+	}
 	_draggingBone = _rootBone->GetBoneUnderMouse(p, FPoint(0, 0), 0.0f);
 	if (_draggingBone != NULL) {
 		_state = STATE_DRAGGING_BONE;
@@ -58,6 +69,9 @@ void Faerie::OnLeftMouseDown(Point p) {
 
 void Faerie::OnLeftMouseUp(Point p) {
 	if (_state == STATE_NOFRAME) {
+		return;
+	}
+	if (_state == STATE_ANIMATION) {
 		return;
 	}
 	if (_state == STATE_DRAGGING_BONE) {
@@ -96,4 +110,16 @@ void Faerie::SlotShowFaerie(bool doShow) {
 	} else {
 		_state = STATE_NOFRAME;
 	}
+}
+
+void Faerie::StartAnimationSlot(FaerieAnimation* animation) {
+	assert(_state == STATE_SINGLE_FRAME);
+	_state = STATE_ANIMATION;
+	_animationTimer = 0.0f;
+	_animation = animation;
+}
+
+void Faerie::StopAnimationSlot() {
+	assert(_state == STATE_ANIMATION);
+	_state = STATE_SINGLE_FRAME;
 }

@@ -28,7 +28,7 @@ public:
 			result = result * 10 + d;
 			s++;
 		}
-		return result;
+		return multiplier * result;
 	}
 
 	//

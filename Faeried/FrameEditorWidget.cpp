@@ -81,7 +81,7 @@ FaerieFrame FrameEditorWidget::CreateFrame() {
 }
 
 void FrameEditorWidget::FaerieChandedFrame(FaerieFrame frame) {
-	_isInit = false;
+	_isInit = true;
 	_model->setData(_model->index(0, 1), frame.GetBoneAngle("head"));
 	_model->setData(_model->index(1, 1), frame.GetBoneAngle("body"));
 	_model->setData(_model->index(2, 1), frame.GetBoneAngle("pelvis"));
@@ -99,5 +99,5 @@ void FrameEditorWidget::FaerieChandedFrame(FaerieFrame frame) {
 	repaint();
 	updateGeometries();
 	// TODO: добить это место.. :)
-	_isInit = true;
+	_isInit = false;
 }

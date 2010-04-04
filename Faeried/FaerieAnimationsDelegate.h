@@ -85,6 +85,21 @@ signals:
 	//
 	void FaerieChangedFrameSignal(FaerieFrame frame);
 
+	//
+	// Сигнал начать анимацию
+	//
+	void StartAnimationSignal(FaerieAnimation* animation);
+
+	//
+	// Сигнал закончить анимацию
+	//
+	void StopAnimationSignal();
+
+	//
+	// Сигнал "запущена ли анимация"
+	//
+	void AnimationIsStopped(bool isStopped);
+
 public slots:
 
 	//
@@ -132,6 +147,16 @@ public slots:
 	//
 	void FaerieChangedFrame(FaerieFrame frame);
 
+	//
+	// Нажали на кнопку начать анимацию
+	//
+	void StartAnimationSlot();
+
+	//
+	// Нажали на кнопку закончить анимацию
+	//
+	void StopAnimationSlot();
+
 private:
 
 	FaerieAnimationsCollection* _collection;
@@ -157,4 +182,5 @@ private:
 	// Вернуть список кадров
 	//
 	QStringList GetFramesList();
+
 };

@@ -26,7 +26,7 @@ public:
 	explicit FaerieAnimation(std::string name);
 
 	//
-	// ¬ернуть кадр анимации по нормализованному времени t
+	// ¬ернуть кадр анимации по времени t
 	//
 	FaerieFrame GetFrame(float t);
 

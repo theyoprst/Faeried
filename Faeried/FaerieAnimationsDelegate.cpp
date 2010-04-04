@@ -123,3 +123,15 @@ void FaerieAnimationsDelegate::FaerieChangedFrame(FaerieFrame frame) {
 	emit FaerieChangedFrameSignal(frame);
 	_currentAnimation->SetKeyFrame(_currentFrameNumber, frame);
 }
+
+void FaerieAnimationsDelegate::StartAnimationSlot() {
+	assert(_currentAnimation != NULL);
+	emit StartAnimationSignal(_currentAnimation);
+	emit AnimationIsStopped(false);
+}
+
+void FaerieAnimationsDelegate::StopAnimationSlot() {
+	assert(_currentAnimation != NULL);
+	emit StopAnimationSignal();
+	emit AnimationIsStopped(true);
+}

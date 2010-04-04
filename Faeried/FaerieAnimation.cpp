@@ -9,6 +9,7 @@ FaerieAnimation::FaerieAnimation(Xml::Node* element)
 		_keyFrames.push_back(FaerieFrame(keyFrameXml));
 		keyFrameXml = keyFrameXml->next_sibling("keyFrame");
 	}
+	CreateAnimationSplines();
 }
 
 FaerieAnimation::FaerieAnimation(std::string name)
@@ -16,15 +17,17 @@ FaerieAnimation::FaerieAnimation(std::string name)
 	, _time(5.0f)
 {
 	_keyFrames.push_back(FaerieFrame());
+	CreateAnimationSplines();
 }
 
 FaerieFrame FaerieAnimation::GetFrame(float t) {
-	assert(0.0f <= t && t <= 1.0f);
+	float time = fmod(t, _time);
+	time /= _time;
 	FaerieFrame::BonesDegrees bonesDegrees;
 	for (AngleSplines::iterator i = _angleSplines.begin(); i != _angleSplines.end(); ++i) {
-		bonesDegrees[i->first] = i->second.getGlobalFrame(t);
+		bonesDegrees[i->first] = i->second.getGlobalFrame(time);
 	}
-	FPoint shift(_xSpline.getGlobalFrame(t), _ySpline.getGlobalFrame(t));
+	FPoint shift(_xSpline.getGlobalFrame(time), _ySpline.getGlobalFrame(time));
 	return FaerieFrame(bonesDegrees, shift);
 }
 
@@ -91,6 +94,7 @@ void FaerieAnimation::CloneFrame(int frameNumber) {
 	KeyFrames::iterator frameNext = frame;
 	std::advance(frameNext, 1);
 	_keyFrames.insert(frameNext, *frame);
+	CreateAnimationSplines();
 }
 
 void FaerieAnimation::DeleteFrame(int frameNumber) {
@@ -98,6 +102,7 @@ void FaerieAnimation::DeleteFrame(int frameNumber) {
 	KeyFrames::iterator frame = _keyFrames.begin();
 	std::advance(frame, frameNumber);
 	_keyFrames.erase(frame);
+	CreateAnimationSplines();
 }
 
 FaerieFrame FaerieAnimation::GetKeyFrame(int frameNumber) {
@@ -113,4 +118,5 @@ void FaerieAnimation::SetKeyFrame(int frameNumber, FaerieFrame frame) {
 	KeyFrames::iterator iFrame = _keyFrames.begin();
 	std::advance(iFrame, frameNumber);
 	*iFrame = frame;
+	CreateAnimationSplines();
 }

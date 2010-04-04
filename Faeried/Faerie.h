@@ -4,9 +4,10 @@
 
 #include "BonesMap.h"
 
+class Bone;
+class FaerieAnimation;
 class hgeSprite;
 class HGE;
-class Bone;
 
 #include "FaerieFrame.h"
 #include "FPoint.h"
@@ -72,6 +73,12 @@ private:
 	FPoint _shift;
 		// сдвиг
 
+	float _animationTimer;
+		// таймер анимации
+
+	FaerieAnimation* _animation;
+		// текущая анимация (в состоянии STATE_ANIMATION)
+
 	enum {
 
 		STATE_NOFRAME,
@@ -82,6 +89,9 @@ private:
 		
 		STATE_DRAGGING_BONE,
 			// юзер тащит кость мышью
+
+		STATE_ANIMATION,
+			// проигрывается анимация
 
 	} _state;
 		// текущее состояние
@@ -97,6 +107,16 @@ public slots:
 	// Нужно ли показывать фею
 	//
 	void SlotShowFaerie(bool);
+
+	//
+	// Нажали на кнопку начать анимацию
+	//
+	void StartAnimationSlot(FaerieAnimation* animation);
+
+	//
+	// Нажали на кнопку закончить анимацию
+	//
+	void StopAnimationSlot();
 
 signals:
 
