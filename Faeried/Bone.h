@@ -70,6 +70,11 @@ public:
 	//
 	void SetAngleInDegrees(float angleInDegrees);
 
+	//
+	// Установить масштаб
+	//
+	static void SetScale(float newScale);
+
 private:
 	
 	static float _scale;

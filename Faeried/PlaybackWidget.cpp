@@ -5,6 +5,7 @@
 #include <QtGui/QPushButton>
 #include <QtGui/QSlider>
 
+#include "Bone.h"
 #include "FaerieAnimationsDelegate.h"
 
 PlaybackWidget::PlaybackWidget(QWidget* parent, FaerieAnimationsDelegate* animations)
@@ -29,6 +30,9 @@ PlaybackWidget::PlaybackWidget(QWidget* parent, FaerieAnimationsDelegate* animat
 	scalesCombo->addItem(tr("200%"));
 	scalesCombo->addItem(tr("300%"));
 	scalesCombo->addItem(tr("400%"));
+	scalesCombo->setCurrentIndex(3);
+	connect(scalesCombo, SIGNAL(currentIndexChanged(const QString&)), this, SLOT(ScaleChanged(const QString&))); 
+	connect(animations, SIGNAL(AnimationIsSelected(bool)), scalesCombo, SLOT(setEnabled(bool)));
 
 	layout->addWidget(_playbackButton);
 	layout->addWidget(playbackSlider);
@@ -60,4 +64,10 @@ void PlaybackWidget::ClickedPlayButton() {
 
 void PlaybackWidget::SetPlaybackProgressSlot(float progress) {
 	emit SetPlaybackProgress(Math::Round(progress * SLIDER_PROGRESS_MAX));
+}
+
+void PlaybackWidget::ScaleChanged(const QString& scale) {
+	std::string s = scale.toStdString();
+	int percents = Int::Parse(s.substr(0, s.size() - 1).c_str());
+	Bone::SetScale(percents / 100.0f);
 }

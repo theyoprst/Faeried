@@ -17,5 +17,15 @@
 			<shift x="0" y="0"/>
 		</keyFrame>
 	</animation>
+	<animation name="levitation" time="5.000000">
+		<keyFrame>
+			<bones body="0" head="0" leftArm="75" leftForearm="-147" leftLeg="172" leftThigh="-79" pelvis="0" rightArm="-78" rightForearm="148" rightLeg="-172" rightThigh="81"/>
+			<shift x="0" y="0"/>
+		</keyFrame>
+		<keyFrame>
+			<bones body="0" head="0" leftArm="75" leftForearm="-147" leftLeg="172" leftThigh="-78" pelvis="0" rightArm="-78" rightForearm="148" rightLeg="-172" rightThigh="81"/>
+			<shift x="0" y="4"/>
+		</keyFrame>
+	</animation>
 </animations>
 

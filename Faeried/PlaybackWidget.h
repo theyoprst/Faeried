@@ -48,6 +48,11 @@ private slots:
 	//
 	void SetPlaybackProgressSlot(float);
 
+	//
+	// Изменен масштаб
+	//
+	void ScaleChanged(const QString& scale);
+
 signals:
 
 	//

@@ -192,3 +192,8 @@ void Bone::SetInParentPos(FPoint pos) {
 FPoint Bone::GetInParentPos() {
 	return _inParentPosition;
 }
+
+void Bone::SetScale(float newScale) {
+	assert(newScale > 0);
+	_scale = newScale;
+}
