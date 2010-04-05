@@ -95,9 +95,14 @@ void FrameEditorWidget::FaerieChandedFrame(FaerieFrame frame) {
 	_model->setData(_model->index(10, 1), frame.GetBoneAngle("rightLeg"));
 	_model->setData(_model->index(11, 1), Math::Round(frame.GetShift().x));
 	_model->setData(_model->index(12, 1), Math::Round(frame.GetShift().y));
-	update();
-	repaint();
-	updateGeometries();
-	// TODO: добить это место.. :)
+
+	// Вот этот грязный хак нужен чтобы таблица перерисовалась
+	setEnabled(false);
+	setEnabled(true);
+	//assert(_model->submit());
+	//update();
+	//repaint();
+	//updateGeometries();
+
 	_isInit = false;
 }
