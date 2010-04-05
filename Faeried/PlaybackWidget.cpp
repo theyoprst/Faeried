@@ -52,6 +52,7 @@ void PlaybackWidget::ClickedPlayButton() {
 		_state = STATE_STOPPED;
 		_playbackButton->setIcon(style()->standardIcon(QStyle::SP_MediaPlay));
 		emit StopAnimation();
+		emit SetPlaybackProgress(0);
 	} else {
 		assert(false);
 	}
