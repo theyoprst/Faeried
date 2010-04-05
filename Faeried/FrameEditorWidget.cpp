@@ -18,33 +18,67 @@ FrameEditorWidget::FrameEditorWidget(QWidget* parent)
 	setItemDelegateForColumn(1, new SpinBoxDelegate(-180, 180));
 	setItemDelegateForColumn(0, new NoEditDelegate());
 	
-	for (int row = 0; row < ROWS; ++row) {
-		_model->setItem(row, 0, new QStandardItem("hello"));
-		_model->setItem(row, 1, new QStandardItem("0"));
-	}
-
 	setGridStyle(Qt::DotLine);
 	for (int i = 0; i < ROWS; ++i) {
 		setRowHeight(i, 20);
+		_model->setItem(i, 1, new QStandardItem(tr("0")));
 	}
 	setColumnWidth(0, 150);
 	setColumnWidth(1, 50);
 	verticalHeader()->hide();
 	horizontalHeader()->hide();
 
-	_model->setItem(0, 0, new QStandardItem(tr("голова")));
-	_model->setItem(1, 0, new QStandardItem(tr("туловище")));
-	_model->setItem(2, 0, new QStandardItem(tr("поясница")));
-	_model->setItem(3, 0, new QStandardItem(tr("левое предплечье")));
-	_model->setItem(4, 0, new QStandardItem(tr("левая рука")));
-	_model->setItem(5, 0, new QStandardItem(tr("правое предплечье")));
-	_model->setItem(6, 0, new QStandardItem(tr("правая рука")));
-	_model->setItem(7, 0, new QStandardItem(tr("левое бедро")));
-	_model->setItem(8, 0, new QStandardItem(tr("левая голень")));
-	_model->setItem(9, 0, new QStandardItem(tr("правое бедро")));
-	_model->setItem(10, 0, new QStandardItem(tr("правая голень")));
-	_model->setItem(11, 0, new QStandardItem(tr("смещение по x")));
-	_model->setItem(12, 0, new QStandardItem(tr("смещение по y")));
+	_model->setItem(0, 0, new QStandardItem(tr("Голова")));
+	_model->item(0, 0)->setToolTip(tr("Угол поворота головы"));
+	_model->item(0, 1)->setToolTip(tr("Угол поворота головы"));
+
+	_model->setItem(1, 0, new QStandardItem(tr("Туловище")));
+	_model->item(1, 0)->setToolTip(tr("Угол поворота туловища"));
+	_model->item(1, 1)->setToolTip(tr("Угол поворота туловища"));
+
+	_model->setItem(2, 0, new QStandardItem(tr("Поясница")));
+	_model->item(2, 0)->setToolTip(tr("Угол поворота поясницы"));
+	_model->item(2, 1)->setToolTip(tr("Угол поворота поясницы"));
+
+	_model->setItem(3, 0, new QStandardItem(tr("Левое предплечье")));
+	_model->item(3, 0)->setToolTip(tr("Угол поворота левого предплечья"));
+	_model->item(3, 1)->setToolTip(tr("Угол поворота левого предплечья"));
+
+	_model->setItem(4, 0, new QStandardItem(tr("Левая рука")));
+	_model->item(4, 0)->setToolTip(tr("Угол поворота левой руки"));
+	_model->item(4, 1)->setToolTip(tr("Угол поворота левой руки"));
+
+	_model->setItem(5, 0, new QStandardItem(tr("Правое предплечье")));
+	_model->item(5, 0)->setToolTip(tr("Угол поворота правого предплечья"));
+	_model->item(5, 1)->setToolTip(tr("Угол поворота правого предплечья"));
+
+	_model->setItem(6, 0, new QStandardItem(tr("Правая рука")));
+	_model->item(6, 0)->setToolTip(tr("Угол поворота правой руки"));
+	_model->item(6, 1)->setToolTip(tr("Угол поворота правой руки"));
+
+	_model->setItem(7, 0, new QStandardItem(tr("Левое бедро")));
+	_model->item(7, 0)->setToolTip(tr("Угол поворота левого бедра"));
+	_model->item(7, 1)->setToolTip(tr("Угол поворота левого бедра"));
+
+	_model->setItem(8, 0, new QStandardItem(tr("Левая голень")));
+	_model->item(8, 0)->setToolTip(tr("Угол поворота левой голени"));
+	_model->item(8, 1)->setToolTip(tr("Угол поворота левой голени"));
+
+	_model->setItem(9, 0, new QStandardItem(tr("Правое бедро")));
+	_model->item(9, 0)->setToolTip(tr("Угол поворота правого бедра"));
+	_model->item(9, 1)->setToolTip(tr("Угол поворота правого бедра"));
+
+	_model->setItem(10, 0, new QStandardItem(tr("Правая голень")));
+	_model->item(10, 0)->setToolTip(tr("Угол поворота правой голени"));
+	_model->item(10, 1)->setToolTip(tr("Угол поворота правой голени"));
+
+	_model->setItem(11, 0, new QStandardItem(tr("Смещение по x")));
+	_model->item(11, 0)->setToolTip(tr("Горизонтальное смещение в пикселах"));
+	_model->item(11, 1)->setToolTip(tr("Горизонтальное смещение в пикселах"));
+
+	_model->setItem(12, 0, new QStandardItem(tr("Смещение по y")));
+	_model->item(12, 0)->setToolTip(tr("Вертикальное смещение в пикселах"));
+	_model->item(12, 1)->setToolTip(tr("Вертикальное смещение в пикселах"));
 
 	connect(_model, SIGNAL(dataChanged(const QModelIndex&, const QModelIndex&)),
 		this, SLOT(dataChanged(const QModelIndex&, const QModelIndex&)));

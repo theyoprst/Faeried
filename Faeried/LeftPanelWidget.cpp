@@ -38,11 +38,13 @@ QLayout* LeftPanelWidget::CreateAnimationsLayout() {
 	animationsCombo->show();
 
 	QPushButton* newAnimationButton = new QPushButton(tr("Новая"));
+	newAnimationButton->setToolTip(tr("Создать новую анимацию"));
 	newAnimationButton->setIcon(style()->standardIcon(QStyle::SP_FileDialogNewFolder));
 	connect(_animations, SIGNAL(AnimationIsStopped(bool)), newAnimationButton, SLOT(setEnabled(bool)));
 	connect(newAnimationButton, SIGNAL(clicked()), this, SLOT(AskNewAnimationName()));
 	
 	QPushButton* deleteAnimationButton = new QPushButton(tr("Удалить"));
+	deleteAnimationButton->setToolTip(tr("Удалить текущую анимацию"));
 	deleteAnimationButton->setIcon(style()->standardIcon(QStyle::SP_TrashIcon));
 	connect(deleteAnimationButton, SIGNAL(clicked()), this, SLOT(ConfirmDeleteAnimation()));
 	connect(_animations, SIGNAL(AnimationIsSelected(bool)), deleteAnimationButton, SLOT(setEnabled(bool)));
@@ -57,8 +59,9 @@ QLayout* LeftPanelWidget::CreateAnimationsLayout() {
 }
 
 QLayout* LeftPanelWidget::CreateTimeLayout() {
-	QLabel* labelTime = new QLabel(tr("Продолжительность:"));
+	QLabel* labelTime = new QLabel(tr("Продолжительность (сек):"));
 	QDoubleSpinBox* spinBox = new QDoubleSpinBox();
+	spinBox->setToolTip(tr("Продолжительность анимации в секундах"));
 	spinBox->setMinimum(0.1);
 	spinBox->setMaximum(50.0);
 	connect(_animations, SIGNAL(AnimationIsSelected(bool)), spinBox, SLOT(setEnabled(bool)));
@@ -82,6 +85,7 @@ QWidget* LeftPanelWidget::CreateFramesWidget() {
 
 	// справа выстраиваем кнопочки в столбик
 	QPushButton* buttonClone = new QPushButton(tr("Дублировать кадр"));
+	buttonClone->setToolTip(tr("Создать такой же кадр сразу после текущего"));
 	buttonClone->setIcon(style()->standardIcon(QStyle::SP_ArrowDown));
 	connect(_animations, SIGNAL(AnimationIsSelected(bool)), buttonClone, SLOT(setEnabled(bool)));
 	connect(_animations, SIGNAL(AnimationIsStopped(bool)), buttonClone, SLOT(setEnabled(bool)));
@@ -111,11 +115,13 @@ QWidget* LeftPanelWidget::CreateFramesWidget() {
 
 QLayout* LeftPanelWidget::CreateButtonsLayout() {
 	QPushButton* saveAll = new QPushButton(tr("Сохранить всё"));
+	saveAll->setToolTip(tr("Сохранить все изменения"));
 	saveAll->setIcon(style()->standardIcon(QStyle::SP_DialogSaveButton));
 	connect(saveAll, SIGNAL(clicked()), _animations, SLOT(SaveAll()));
 	connect(_animations, SIGNAL(AnimationIsStopped(bool)), saveAll, SLOT(setEnabled(bool)));
 
 	QPushButton* discardAll = new QPushButton(tr("Отменить всё"));
+	discardAll->setToolTip(tr("Откатить все изменения (загрузить анимации заново)"));
 	discardAll->setIcon(style()->standardIcon(QStyle::SP_DialogCancelButton));
 	connect(discardAll, SIGNAL(clicked()), _animations, SLOT(DiscardAll()));
 	connect(_animations, SIGNAL(AnimationIsStopped(bool)), discardAll, SLOT(setEnabled(bool)));

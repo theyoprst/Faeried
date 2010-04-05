@@ -15,6 +15,7 @@ PlaybackWidget::PlaybackWidget(QWidget* parent, FaerieAnimationsDelegate* animat
 	QHBoxLayout* layout = new QHBoxLayout;
 
 	_playbackButton = new QPushButton(this);
+	_playbackButton->setToolTip(tr("Запустить/остановить анимацию"));
 	_playbackButton->setIcon(style()->standardIcon(QStyle::SP_MediaPlay));
 	connect(animations, SIGNAL(AnimationIsSelected(bool)), _playbackButton, SLOT(setEnabled(bool)));
 	connect(_playbackButton, SIGNAL(clicked()), this, SLOT(ClickedPlayButton()));
@@ -26,6 +27,7 @@ PlaybackWidget::PlaybackWidget(QWidget* parent, FaerieAnimationsDelegate* animat
 	connect(this, SIGNAL(SetPlaybackProgress(int)), playbackSlider, SLOT(setValue(int)));
 
 	QComboBox* scalesCombo = new QComboBox(this);
+	scalesCombo->setToolTip(tr("Изменить масштаб феи"));
 	scalesCombo->addItem(tr("100%"));
 	scalesCombo->addItem(tr("200%"));
 	scalesCombo->addItem(tr("300%"));
