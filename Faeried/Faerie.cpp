@@ -32,6 +32,7 @@ void Faerie::Update(float dt) {
 	if (_state == STATE_ANIMATION) {
 		_animationTimer += dt;
 		GuiChangedFrame(_animation->GetFrame(_animationTimer));
+		emit SetAnimationProgress(fmod(_animationTimer, _animation->GetTime()));
 	}
 }
 

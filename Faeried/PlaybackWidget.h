@@ -23,6 +23,10 @@ public:
 
 private:
 
+	static const int SLIDER_PROGRESS_MAX = 1000;
+		// максимальное значение слайдера прогресса
+		// (минимальное равно нулю)
+
 	QPushButton* _playbackButton;
 		// кнопка плей (а заодно и пауза)
 
@@ -39,6 +43,11 @@ private slots:
 	//
 	void ClickedPlayButton();
 
+	//
+	// —обытие изменилс€ прогресс
+	//
+	void SetPlaybackProgressSlot(float);
+
 signals:
 
 	//
@@ -50,5 +59,10 @@ signals:
 	// Ќачать анимацию
 	//
 	void StartAnimation();
+
+	//
+	// ”становить значение слайдера прогресса
+	//
+	void SetPlaybackProgress(int);
 
 };

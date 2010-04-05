@@ -125,6 +125,11 @@ signals:
 	//
 	void FaerieChangedFrameSignal(FaerieFrame frame);
 
+	//
+	// Установить прогресс анимации
+	//
+	void SetAnimationProgress(float);
+
 private:
 
 	//

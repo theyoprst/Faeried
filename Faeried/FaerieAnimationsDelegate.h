@@ -100,6 +100,11 @@ signals:
 	//
 	void AnimationIsStopped(bool isStopped);
 
+	//
+	// Установить прогресс анимации
+	//
+	void SetAnimationProgress(float);
+
 public slots:
 
 	//

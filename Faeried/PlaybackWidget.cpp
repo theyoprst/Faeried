@@ -20,8 +20,9 @@ PlaybackWidget::PlaybackWidget(QWidget* parent, FaerieAnimationsDelegate* animat
 
 	QSlider* playbackSlider = new QSlider(Qt::Horizontal, this);
 	playbackSlider->setMinimum(0);
-	playbackSlider->setMaximum(1000);
+	playbackSlider->setMaximum(SLIDER_PROGRESS_MAX);
 	playbackSlider->setEnabled(false);
+	connect(this, SIGNAL(SetPlaybackProgress(int)), playbackSlider, SLOT(setValue(int)));
 
 	QComboBox* scalesCombo = new QComboBox(this);
 	scalesCombo->addItem(tr("100%"));
@@ -39,6 +40,7 @@ PlaybackWidget::PlaybackWidget(QWidget* parent, FaerieAnimationsDelegate* animat
 
 	connect(this, SIGNAL(StartAnimation()), animations, SLOT(StartAnimationSlot()));
 	connect(this, SIGNAL(StopAnimation()), animations, SLOT(StopAnimationSlot()));
+	connect(animations, SIGNAL(SetAnimationProgress(float)), this, SLOT(SetPlaybackProgressSlot(float)));
 }
 
 void PlaybackWidget::ClickedPlayButton() {
@@ -53,4 +55,8 @@ void PlaybackWidget::ClickedPlayButton() {
 	} else {
 		assert(false);
 	}
+}
+
+void PlaybackWidget::SetPlaybackProgressSlot(float progress) {
+	emit SetPlaybackProgress(Math::Round(progress * SLIDER_PROGRESS_MAX));
 }

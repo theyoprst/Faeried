@@ -42,6 +42,7 @@ void PreviewFaerieWidget::InitHGE() {
 	connect(_animations, SIGNAL(AnimationIsSelected(bool)), _faerie, SLOT(SlotShowFaerie(bool)));
 	connect(_animations, SIGNAL(StartAnimationSignal(FaerieAnimation*)), _faerie, SLOT(StartAnimationSlot(FaerieAnimation*)));
 	connect(_animations, SIGNAL(StopAnimationSignal()), _faerie, SLOT(StopAnimationSlot()));
+	connect(_faerie, SIGNAL(SetAnimationProgress(float)), _animations, SIGNAL(SetAnimationProgress(float)));
 	_timer.start(10); // 1000 fps max
 	connect(&_timer, SIGNAL(timeout()), this, SLOT(RenderFunc()));
 	_time = QTime::currentTime();
