@@ -81,6 +81,7 @@ QWidget* LeftPanelWidget::CreateFramesWidget() {
 	connect(_animations, SIGNAL(SetFramesList(const QStringList&)), frames, SLOT(SetFramesList(const QStringList&)));
 	connect(_animations, SIGNAL(AnimationIsSelected(bool)), frames, SLOT(setEnabled(bool)));
 	connect(_animations, SIGNAL(AnimationIsStopped(bool)), frames, SLOT(setEnabled(bool)));
+	connect(_animations, SIGNAL(AnimationIsSelected(bool)), frames, SLOT(AnimationIsSelected(bool)));
 	connect(_animations, SIGNAL(SetCurrentFrame(int)), frames, SLOT(SetCurrentRow(int)));
 
 	// справа выстраиваем кнопочки в столбик
@@ -171,13 +172,13 @@ void LeftPanelWidget::AskNewAnimationName() {
 			animationExists.setIcon(QMessageBox::Warning);
 			animationExists.exec();
 		} else if (_animations->HasAnimation(animationName.toStdString())) {
-			_animations->AddAnimation(animationName.toStdString());
-		} else {
 			QMessageBox animationExists(parentWidget());
 			animationExists.setText(tr("Анимация с таким именем уже существует"));
 			animationExists.setStandardButtons(QMessageBox::Ok);
 			animationExists.setIcon(QMessageBox::Warning);
 			animationExists.exec();
+		} else {
+			_animations->AddAnimation(animationName.toStdString());
 		}
 	}
 }

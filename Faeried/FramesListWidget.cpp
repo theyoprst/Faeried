@@ -17,11 +17,9 @@ void FramesListWidget::SetCurrentRow(int rowNumber) {
 	setCurrentRow(rowNumber);
 }
 
-void FramesListWidget::changeEvent(QEvent* event) {
-	if (event->type() == QEvent::EnabledChange) {
-		if (!isEnabled()) {
-			clear();
-			emit MoreThanOneFrame(false);
-		}
+void FramesListWidget::AnimationIsSelected(bool isSelected) {
+	if (!isSelected) {
+		clear();
+		emit MoreThanOneFrame(false);
 	}
 }
