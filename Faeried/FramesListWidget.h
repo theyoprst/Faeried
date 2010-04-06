@@ -37,5 +37,12 @@ signals:
 	//
 	void MoreThanOneFrame(bool);
 
+private:
+
+	//
+	// Реакция на событие изменения
+	// (конкретно нужно отловить QEvent::EnabledChange)
+	//
+	virtual void changeEvent(QEvent* event);
 };
 

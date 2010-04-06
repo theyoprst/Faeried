@@ -3,6 +3,18 @@
 FaerieAnimationsCollection::FaerieAnimationsCollection(std::string filename)
 	: _filename(filename)
 {
+	Reread();
+}
+
+void FaerieAnimationsCollection::Clear() {
+	for (MapAnimations::iterator i = _mapAnimations.begin(); i != _mapAnimations.end(); ++i) {
+		delete i->second;
+	}
+	_mapAnimations.clear();
+}
+
+void FaerieAnimationsCollection::Reread() {
+	Clear();
 	Xml::ReadDocument doc(_filename);
 	Xml::Node* rootNode = doc.first_node();
 	assert(rootNode != NULL);

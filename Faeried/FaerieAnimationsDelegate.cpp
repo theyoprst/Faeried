@@ -54,6 +54,7 @@ void FaerieAnimationsDelegate::SaveAll() {
 }
 
 void FaerieAnimationsDelegate::DiscardAll() {
+	_collection->Reread();
 	InitView();
 }
 
@@ -92,9 +93,9 @@ void FaerieAnimationsDelegate::CloneCurrentFrame() {
 }
 
 void FaerieAnimationsDelegate::SetCurrentFrameNumber(int frameNumber) {
-	assert(_currentAnimation != NULL);
 	_currentFrameNumber = frameNumber;
 	if (frameNumber != -1) {
+		assert(_currentAnimation != NULL);
 		emit GuiChangedFrameSignal(_currentAnimation->GetKeyFrame(_currentFrameNumber));
 		emit FaerieChangedFrameSignal(_currentAnimation->GetKeyFrame(_currentFrameNumber));
 	}

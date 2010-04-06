@@ -12,5 +12,9 @@ int main(int argc, char* argv[]) {
 	MainWidget mainWidget(&animationsDelegate);
 	animationsDelegate.InitView();
 	mainWidget.show();
+	
+	// Перемещаем окно примерно по центру экрана (при моем разрешении :)
+	mainWidget.move(75, 150);
+	
 	return app.exec();
 }

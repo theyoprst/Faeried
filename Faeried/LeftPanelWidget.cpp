@@ -21,11 +21,11 @@ LeftPanelWidget::LeftPanelWidget(QWidget* parent, FaerieAnimationsDelegate* anim
 {
 	// всех детей помещаем в вертикальный лэйаут
 	QVBoxLayout* verticalLayout = new QVBoxLayout();
-	verticalLayout->addLayout(CreateAnimationsLayout());
-	verticalLayout->addLayout(CreateTimeLayout());
-	verticalLayout->addWidget(CreateFramesWidget(), 0, Qt::AlignLeft);
-	verticalLayout->addWidget(CreateFrameSettings(), 0, Qt::AlignLeft);
-	verticalLayout->addLayout(CreateButtonsLayout());
+	verticalLayout->addLayout(CreateAnimationsLayout(), 1);
+	verticalLayout->addLayout(CreateTimeLayout(), 1);
+	verticalLayout->addWidget(CreateFramesWidget(), 1);
+	verticalLayout->addWidget(CreateFrameSettings(), 2);
+	verticalLayout->addLayout(CreateButtonsLayout(), 1);
 	setLayout(verticalLayout);
 }
 
@@ -136,33 +136,45 @@ QLayout* LeftPanelWidget::CreateButtonsLayout() {
 }
 
 QWidget* LeftPanelWidget::CreateFrameSettings() {
-	FrameEditorWidget* frameEditor = new FrameEditorWidget(this);
+
+	FrameEditorWidget* frameEditor = new FrameEditorWidget(NULL);
 	connect(_animations, SIGNAL(AnimationIsSelected(bool)), frameEditor, SLOT(setEnabled(bool)));
 	connect(_animations, SIGNAL(AnimationIsStopped(bool)), frameEditor, SLOT(setEnabled(bool)));
 	connect(frameEditor, SIGNAL(GuiChangedFrame(FaerieFrame)), _animations, SLOT(GuiChangedFrame(FaerieFrame))); 
 	connect(_animations, SIGNAL(FaerieChangedFrameSignal(FaerieFrame)), frameEditor, SLOT(FaerieChandedFrame(FaerieFrame)));
-	return frameEditor;
+
+	QVBoxLayout *layout = new QVBoxLayout;
+	layout->addWidget(frameEditor);
+
+	QGroupBox* groupBox = new QGroupBox(tr("Настройки кадра"));
+	groupBox->setLayout(layout);
+
+	return groupBox;
 }
 
 void LeftPanelWidget::AskNewAnimationName() {
 	bool okPressed = false;
-	QString animationName = QInputDialog::getText(this, tr("Имя анимации"), tr("Введите имя анимации"), QLineEdit::Normal, tr(""), &okPressed);
+	QString animationName = QInputDialog::getText(parentWidget(), tr("Имя анимации"), tr("Введите имя анимации"), QLineEdit::Normal, tr(""), &okPressed);
 	if (okPressed) {
 		QRegExp regExp("[a-zA-Z0-9\\._\\-\\s]+");
-		if (regExp.exactMatch(animationName)) {
-			if (!_animations->HasAnimation(animationName.toStdString())) {
-				_animations->AddAnimation(animationName.toStdString());
-			} else {
-				QMessageBox animationExists(this);
-				animationExists.setText(tr("Анимация с таким именем уже существует"));
-				animationExists.setStandardButtons(QMessageBox::Ok);
-				animationExists.setIcon(QMessageBox::Warning);
-				animationExists.exec();
-			}
+		if (!regExp.exactMatch(animationName)) {
+			QMessageBox animationExists(parentWidget());
+			animationExists.setText(tr("Допустимы только латинские буквы, цифры и некоторые знаки"));
+			//animationExists.setDetailedText(tr("Имя должно состоять из латинских букв, цифр и некоторых других знаков"));
+			animationExists.setStandardButtons(QMessageBox::Ok);
+			animationExists.setIcon(QMessageBox::Warning);
+			animationExists.exec();
+		} else if (animationName.size() > 20) {
+			QMessageBox animationExists(parentWidget());
+			animationExists.setText(tr("Имя анимации длиннее 20 символов"));
+			animationExists.setStandardButtons(QMessageBox::Ok);
+			animationExists.setIcon(QMessageBox::Warning);
+			animationExists.exec();
+		} else if (_animations->HasAnimation(animationName.toStdString())) {
+			_animations->AddAnimation(animationName.toStdString());
 		} else {
-			QMessageBox animationExists(this);
-			animationExists.setText(tr("Неправильное имя анимации"));
-			animationExists.setDetailedText(tr("Имя должно состоять из латинских букв, цифр и некоторых других знаков"));
+			QMessageBox animationExists(parentWidget());
+			animationExists.setText(tr("Анимация с таким именем уже существует"));
 			animationExists.setStandardButtons(QMessageBox::Ok);
 			animationExists.setIcon(QMessageBox::Warning);
 			animationExists.exec();
@@ -171,7 +183,7 @@ void LeftPanelWidget::AskNewAnimationName() {
 }
 
 void LeftPanelWidget::ConfirmDeleteAnimation() {
-	QMessageBox deleteConfirm(this);
+	QMessageBox deleteConfirm(parentWidget());
 	deleteConfirm.setText(tr("Вы действительно хотите удалить эту анимацию?"));
 	deleteConfirm.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
 	deleteConfirm.setDefaultButton(QMessageBox::Yes);
